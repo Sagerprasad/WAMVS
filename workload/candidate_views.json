@@ -1,0 +1,241 @@
+[
+  {
+    "candidate_id": "MV_001",
+    "tables": [
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "i_category"
+    ],
+    "measures": [
+      "revenue",
+      "profit",
+      "total_quantity",
+      "avg_price"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)",
+      "profit": "SUM(ss_net_profit)",
+      "total_quantity": "SUM(ss_quantity)",
+      "avg_price": "AVG(ss_sales_price)"
+    },
+    "joins": [
+      {
+        "table": "item",
+        "condition": "ss_item_sk = i_item_sk"
+      }
+    ],
+    "source_queries": [
+      "q01",
+      "q04"
+    ],
+    "frequency": 2
+  },
+  {
+    "candidate_id": "MV_002",
+    "tables": [
+      "date_dim",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year",
+      "d_moy"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)",
+      "profit": "SUM(ss_net_profit)"
+    },
+    "joins": [
+      {
+        "table": "date_dim",
+        "condition": "ss_sold_date_sk = d_date_sk"
+      }
+    ],
+    "source_queries": [
+      "q02"
+    ],
+    "frequency": 1
+  },
+  {
+    "candidate_id": "MV_003",
+    "tables": [
+      "date_dim",
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year",
+      "i_category"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)",
+      "profit": "SUM(ss_net_profit)"
+    },
+    "joins": [
+      {
+        "table": "item",
+        "condition": "ss_item_sk = i_item_sk"
+      },
+      {
+        "table": "date_dim",
+        "condition": "ss_sold_date_sk = d_date_sk"
+      }
+    ],
+    "source_queries": [
+      "q03",
+      "q07"
+    ],
+    "frequency": 2
+  },
+  {
+    "candidate_id": "MV_004",
+    "tables": [
+      "date_dim",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year"
+    ],
+    "measures": [
+      "revenue"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)"
+    },
+    "joins": [
+      {
+        "table": "date_dim",
+        "condition": "ss_sold_date_sk = d_date_sk"
+      }
+    ],
+    "source_queries": [
+      "q05"
+    ],
+    "frequency": 1
+  },
+  {
+    "candidate_id": "MV_005",
+    "tables": [
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "i_category",
+      "i_class"
+    ],
+    "measures": [
+      "revenue"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)"
+    },
+    "joins": [
+      {
+        "table": "item",
+        "condition": "ss_item_sk = i_item_sk"
+      }
+    ],
+    "source_queries": [
+      "q06"
+    ],
+    "frequency": 1
+  },
+  {
+    "candidate_id": "MV_006",
+    "tables": [
+      "store_sales"
+    ],
+    "group_by": [
+      "ss_store_sk"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)",
+      "profit": "SUM(ss_net_profit)"
+    },
+    "joins": [],
+    "source_queries": [
+      "q08"
+    ],
+    "frequency": 1
+  },
+  {
+    "candidate_id": "MV_007",
+    "tables": [
+      "date_dim",
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "i_category",
+      "d_year"
+    ],
+    "measures": [
+      "count",
+      "revenue"
+    ],
+    "measure_expressions": {
+      "count": "COUNT(*)",
+      "revenue": "SUM(ss_ext_sales_price)"
+    },
+    "joins": [
+      {
+        "table": "item",
+        "condition": "ss_item_sk = i_item_sk"
+      },
+      {
+        "table": "date_dim",
+        "condition": "ss_sold_date_sk = d_date_sk"
+      }
+    ],
+    "source_queries": [
+      "q09"
+    ],
+    "frequency": 1
+  },
+  {
+    "candidate_id": "MV_008",
+    "tables": [
+      "date_dim",
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year",
+      "i_category",
+      "i_brand"
+    ],
+    "measures": [
+      "revenue"
+    ],
+    "measure_expressions": {
+      "revenue": "SUM(ss_ext_sales_price)"
+    },
+    "joins": [
+      {
+        "table": "item",
+        "condition": "ss_item_sk = i_item_sk"
+      },
+      {
+        "table": "date_dim",
+        "condition": "ss_sold_date_sk = d_date_sk"
+      }
+    ],
+    "source_queries": [
+      "q10"
+    ],
+    "frequency": 1
+  }
+]

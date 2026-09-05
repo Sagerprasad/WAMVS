@@ -1,0 +1,164 @@
+[
+  {
+    "query_id": "q01",
+    "baseline_runs_ms": [
+      445.0,
+      356.72,
+      354.55,
+      335.63,
+      339.4
+    ],
+    "mv_runs_ms": [
+      116.35,
+      97.02,
+      110.07,
+      102.35,
+      101.66
+    ],
+    "baseline_mean_ms": 366.26,
+    "mv_mean_ms": 105.49,
+    "baseline_median_ms": 354.55,
+    "mv_median_ms": 102.35,
+    "speedup": 3.464,
+    "improvement_percent": 71.13,
+    "result_match": true,
+    "baseline_rows": 11,
+    "mv_rows": 11,
+    "view": "MV_001"
+  },
+  {
+    "query_id": "q03",
+    "baseline_runs_ms": [
+      446.54,
+      454.11,
+      436.02,
+      417.25,
+      426.76
+    ],
+    "mv_runs_ms": [
+      92.29,
+      95.81,
+      88.48,
+      91.63,
+      95.65
+    ],
+    "baseline_mean_ms": 436.14,
+    "mv_mean_ms": 92.77,
+    "baseline_median_ms": 436.02,
+    "mv_median_ms": 92.29,
+    "speedup": 4.725,
+    "improvement_percent": 78.83,
+    "result_match": true,
+    "baseline_rows": 66,
+    "mv_rows": 66,
+    "view": "MV_003"
+  },
+  {
+    "query_id": "q04",
+    "baseline_runs_ms": [
+      321.81,
+      248.29,
+      244.0,
+      233.92,
+      238.26
+    ],
+    "mv_runs_ms": [
+      94.03,
+      91.21,
+      94.73,
+      95.07,
+      98.18
+    ],
+    "baseline_mean_ms": 257.25,
+    "mv_mean_ms": 94.64,
+    "baseline_median_ms": 244.0,
+    "mv_median_ms": 94.73,
+    "speedup": 2.576,
+    "improvement_percent": 61.18,
+    "result_match": true,
+    "baseline_rows": 1,
+    "mv_rows": 1,
+    "view": "MV_001"
+  },
+  {
+    "query_id": "q05",
+    "baseline_runs_ms": [
+      325.85,
+      284.57,
+      273.09,
+      271.69,
+      270.83
+    ],
+    "mv_runs_ms": [
+      92.82,
+      91.57,
+      87.2,
+      92.74,
+      88.6
+    ],
+    "baseline_mean_ms": 285.21,
+    "mv_mean_ms": 90.58,
+    "baseline_median_ms": 273.09,
+    "mv_median_ms": 91.57,
+    "speedup": 2.982,
+    "improvement_percent": 66.47,
+    "result_match": true,
+    "baseline_rows": 3,
+    "mv_rows": 3,
+    "view": "MV_004"
+  },
+  {
+    "query_id": "q07",
+    "baseline_runs_ms": [
+      471.03,
+      364.79,
+      356.33,
+      352.33,
+      375.47
+    ],
+    "mv_runs_ms": [
+      92.51,
+      90.86,
+      88.54,
+      93.17,
+      88.24
+    ],
+    "baseline_mean_ms": 383.99,
+    "mv_mean_ms": 90.66,
+    "baseline_median_ms": 364.79,
+    "mv_median_ms": 90.86,
+    "speedup": 4.015,
+    "improvement_percent": 75.09,
+    "result_match": true,
+    "baseline_rows": 11,
+    "mv_rows": 11,
+    "view": "MV_003"
+  },
+  {
+    "query_id": "q08",
+    "baseline_runs_ms": [
+      157.51,
+      147.56,
+      142.85,
+      149.04,
+      153.65
+    ],
+    "mv_runs_ms": [
+      87.95,
+      84.24,
+      86.08,
+      82.08,
+      84.88
+    ],
+    "baseline_mean_ms": 150.12,
+    "mv_mean_ms": 85.04,
+    "baseline_median_ms": 149.04,
+    "mv_median_ms": 84.88,
+    "speedup": 1.756,
+    "improvement_percent": 43.05,
+    "result_match": true,
+    "baseline_rows": 7,
+    "mv_rows": 7,
+    "view": "MV_006"
+  }
+]

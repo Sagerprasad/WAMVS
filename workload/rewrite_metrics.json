@@ -1,0 +1,122 @@
+[
+  {
+    "query_id": "q01",
+    "mv_used": null,
+    "baseline_time_ms": 5353.52,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 11,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q02",
+    "mv_used": null,
+    "baseline_time_ms": 1297.33,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 61,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q03",
+    "mv_used": "MV_003",
+    "baseline_time_ms": 882.0,
+    "rewritten_time_ms": 883.07,
+    "speedup": 0.9988,
+    "improvement_percent": -0.12,
+    "baseline_rows": 66,
+    "rewritten_rows": 66,
+    "result_match": true,
+    "status": "success"
+  },
+  {
+    "query_id": "q04",
+    "mv_used": null,
+    "baseline_time_ms": 541.72,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 1,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q05",
+    "mv_used": null,
+    "baseline_time_ms": 559.31,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 3,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q06",
+    "mv_used": null,
+    "baseline_time_ms": 617.78,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 130,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q07",
+    "mv_used": null,
+    "baseline_time_ms": 695.75,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 11,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q08",
+    "mv_used": "MV_007",
+    "baseline_time_ms": 452.01,
+    "rewritten_time_ms": 617.38,
+    "speedup": 0.7321,
+    "improvement_percent": -36.59,
+    "baseline_rows": 7,
+    "rewritten_rows": 7,
+    "result_match": true,
+    "status": "success"
+  },
+  {
+    "query_id": "q09",
+    "mv_used": null,
+    "baseline_time_ms": 657.11,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 18,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  },
+  {
+    "query_id": "q10",
+    "mv_used": null,
+    "baseline_time_ms": 805.93,
+    "rewritten_time_ms": null,
+    "speedup": null,
+    "improvement_percent": null,
+    "baseline_rows": 3156,
+    "rewritten_rows": null,
+    "result_match": null,
+    "status": "not_rewritten"
+  }
+]

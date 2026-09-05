@@ -1,0 +1,834 @@
+[
+  {
+    "interval": 1,
+    "phase": "stable",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "storage_used_mb": 0.0164,
+    "storage_budget_mb": 0.02,
+    "created_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "dropped_views": [],
+    "configuration_changed": true,
+    "ranking": [
+      {
+        "candidate_id": "MV_001",
+        "score": 12.0,
+        "storage_mb": 0.005,
+        "utility": 2400.0,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 6.0,
+        "storage_mb": 0.0029,
+        "utility": 2068.9655,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 10.0,
+        "storage_mb": 0.005,
+        "utility": 2000.0,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 4.0,
+        "storage_mb": 0.0035,
+        "utility": 1142.8571,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 0.0,
+        "storage_mb": 0.0056,
+        "utility": 0.0,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_007",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 0.0,
+        "storage_mb": 0.0466,
+        "utility": 0.0,
+        "source_queries": [
+          "q10"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 2,
+    "phase": "stable",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "storage_used_mb": 0.0164,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_001",
+        "score": 20.4,
+        "storage_mb": 0.005,
+        "utility": 4080.0,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 10.2,
+        "storage_mb": 0.0029,
+        "utility": 3517.2414,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 17.0,
+        "storage_mb": 0.005,
+        "utility": 3400.0,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 6.8,
+        "storage_mb": 0.0035,
+        "utility": 1942.8571,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 0.0,
+        "storage_mb": 0.0056,
+        "utility": 0.0,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_007",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 0.0,
+        "storage_mb": 0.0466,
+        "utility": 0.0,
+        "source_queries": [
+          "q10"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 3,
+    "phase": "stable",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "storage_used_mb": 0.0164,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_001",
+        "score": 26.28,
+        "storage_mb": 0.005,
+        "utility": 5256.0,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 13.14,
+        "storage_mb": 0.0029,
+        "utility": 4531.0345,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 21.9,
+        "storage_mb": 0.005,
+        "utility": 4380.0,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 8.76,
+        "storage_mb": 0.0035,
+        "utility": 2502.8571,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 0.0,
+        "storage_mb": 0.0056,
+        "utility": 0.0,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_007",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 0.0,
+        "storage_mb": 0.0466,
+        "utility": 0.0,
+        "source_queries": [
+          "q10"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 4,
+    "phase": "drifting",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "storage_used_mb": 0.0164,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_001",
+        "score": 26.396,
+        "storage_mb": 0.005,
+        "utility": 5279.2,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 13.198,
+        "storage_mb": 0.0029,
+        "utility": 4551.0345,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 21.33,
+        "storage_mb": 0.005,
+        "utility": 4266.0,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 9.132,
+        "storage_mb": 0.0035,
+        "utility": 2609.1429,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_007",
+        "score": 4.0,
+        "storage_mb": 0.0048,
+        "utility": 833.3333,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 4.0,
+        "storage_mb": 0.0056,
+        "utility": 714.2857,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 3.0,
+        "storage_mb": 0.0466,
+        "utility": 64.3777,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 5,
+    "phase": "drifting",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_006"
+    ],
+    "storage_used_mb": 0.0164,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_001",
+        "score": 23.4772,
+        "storage_mb": 0.005,
+        "utility": 4695.44,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 11.2386,
+        "storage_mb": 0.0029,
+        "utility": 3875.3793,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 18.931,
+        "storage_mb": 0.005,
+        "utility": 3786.2,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 8.3924,
+        "storage_mb": 0.0035,
+        "utility": 2397.8286,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_007",
+        "score": 10.8,
+        "storage_mb": 0.0048,
+        "utility": 2250.0,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 9.8,
+        "storage_mb": 0.0056,
+        "utility": 1750.0,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 9.1,
+        "storage_mb": 0.0466,
+        "utility": 195.279,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 6,
+    "phase": "drifting",
+    "selected_views": [
+      "MV_001",
+      "MV_003",
+      "MV_004",
+      "MV_007"
+    ],
+    "storage_used_mb": 0.0177,
+    "storage_budget_mb": 0.02,
+    "created_views": [
+      "MV_007"
+    ],
+    "dropped_views": [
+      "MV_006"
+    ],
+    "configuration_changed": true,
+    "ranking": [
+      {
+        "candidate_id": "MV_007",
+        "score": 19.56,
+        "storage_mb": 0.0048,
+        "utility": 4075.0,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_001",
+        "score": 19.434,
+        "storage_mb": 0.005,
+        "utility": 3886.8,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 8.867,
+        "storage_mb": 0.0029,
+        "utility": 3057.5862,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 15.2517,
+        "storage_mb": 0.005,
+        "utility": 3050.34,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 15.86,
+        "storage_mb": 0.0056,
+        "utility": 2832.1429,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 6.8747,
+        "storage_mb": 0.0035,
+        "utility": 1964.2,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 16.37,
+        "storage_mb": 0.0466,
+        "utility": 351.2876,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 7,
+    "phase": "bursty",
+    "selected_views": [
+      "MV_001",
+      "MV_004",
+      "MV_005",
+      "MV_007"
+    ],
+    "storage_used_mb": 0.0183,
+    "storage_budget_mb": 0.02,
+    "created_views": [
+      "MV_005"
+    ],
+    "dropped_views": [
+      "MV_003"
+    ],
+    "configuration_changed": true,
+    "ranking": [
+      {
+        "candidate_id": "MV_007",
+        "score": 38.692,
+        "storage_mb": 0.0048,
+        "utility": 8060.8333,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 26.102,
+        "storage_mb": 0.0056,
+        "utility": 4661.0714,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_001",
+        "score": 15.6038,
+        "storage_mb": 0.005,
+        "utility": 3120.76,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 6.2069,
+        "storage_mb": 0.0029,
+        "utility": 2140.3103,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 10.6762,
+        "storage_mb": 0.005,
+        "utility": 2135.24,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 4.8123,
+        "storage_mb": 0.0035,
+        "utility": 1374.9429,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 31.459,
+        "storage_mb": 0.0466,
+        "utility": 675.0858,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 8,
+    "phase": "bursty",
+    "selected_views": [
+      "MV_001",
+      "MV_004",
+      "MV_005",
+      "MV_007"
+    ],
+    "storage_used_mb": 0.0183,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_007",
+        "score": 57.0844,
+        "storage_mb": 0.0048,
+        "utility": 11892.5833,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 36.2714,
+        "storage_mb": 0.0056,
+        "utility": 6477.0357,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_001",
+        "score": 10.9226,
+        "storage_mb": 0.005,
+        "utility": 2184.52,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 4.3448,
+        "storage_mb": 0.0029,
+        "utility": 1498.2069,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 7.4733,
+        "storage_mb": 0.005,
+        "utility": 1494.66,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 47.0213,
+        "storage_mb": 0.0466,
+        "utility": 1009.0408,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 3.3686,
+        "storage_mb": 0.0035,
+        "utility": 962.4571,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  },
+  {
+    "interval": 9,
+    "phase": "bursty",
+    "selected_views": [
+      "MV_001",
+      "MV_004",
+      "MV_005",
+      "MV_007"
+    ],
+    "storage_used_mb": 0.0183,
+    "storage_budget_mb": 0.02,
+    "created_views": [],
+    "dropped_views": [],
+    "configuration_changed": false,
+    "ranking": [
+      {
+        "candidate_id": "MV_007",
+        "score": 44.9591,
+        "storage_mb": 0.0048,
+        "utility": 9366.4792,
+        "source_queries": [
+          "q09"
+        ]
+      },
+      {
+        "candidate_id": "MV_005",
+        "score": 28.39,
+        "storage_mb": 0.0056,
+        "utility": 5069.6429,
+        "source_queries": [
+          "q06"
+        ]
+      },
+      {
+        "candidate_id": "MV_001",
+        "score": 12.6459,
+        "storage_mb": 0.005,
+        "utility": 2529.18,
+        "source_queries": [
+          "q01",
+          "q04"
+        ]
+      },
+      {
+        "candidate_id": "MV_003",
+        "score": 9.2313,
+        "storage_mb": 0.005,
+        "utility": 1846.26,
+        "source_queries": [
+          "q03",
+          "q07"
+        ]
+      },
+      {
+        "candidate_id": "MV_004",
+        "score": 3.0414,
+        "storage_mb": 0.0029,
+        "utility": 1048.7586,
+        "source_queries": [
+          "q05"
+        ]
+      },
+      {
+        "candidate_id": "MV_008",
+        "score": 36.9149,
+        "storage_mb": 0.0466,
+        "utility": 792.1652,
+        "source_queries": [
+          "q10"
+        ]
+      },
+      {
+        "candidate_id": "MV_006",
+        "score": 2.358,
+        "storage_mb": 0.0035,
+        "utility": 673.7143,
+        "source_queries": [
+          "q08"
+        ]
+      },
+      {
+        "candidate_id": "MV_002",
+        "score": 0.0,
+        "storage_mb": 0.0048,
+        "utility": 0.0,
+        "source_queries": [
+          "q02"
+        ]
+      }
+    ]
+  }
+]

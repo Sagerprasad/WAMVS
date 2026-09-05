@@ -1,0 +1,290 @@
+{
+  "storage_budget_mb": 0.02,
+  "intervals": [
+    {
+      "interval": 1,
+      "phase": "stable",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "created_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "dropped_views": [],
+      "create_results": [
+        {
+          "candidate_id": "MV_001",
+          "row_count": 11,
+          "storage_mb": 0.005,
+          "materialization_time_ms": 6156.3
+        },
+        {
+          "candidate_id": "MV_003",
+          "row_count": 66,
+          "storage_mb": 0.005,
+          "materialization_time_ms": 2041.41
+        },
+        {
+          "candidate_id": "MV_004",
+          "row_count": 6,
+          "storage_mb": 0.0029,
+          "materialization_time_ms": 1201.22
+        },
+        {
+          "candidate_id": "MV_006",
+          "row_count": 7,
+          "storage_mb": 0.0035,
+          "materialization_time_ms": 1171.38
+        }
+      ],
+      "drop_results": [],
+      "adaptation_latency_ms": 10570.31,
+      "storage_used_mb": 0.0164,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "configuration_changed": true
+    },
+    {
+      "interval": 2,
+      "phase": "stable",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0164,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "configuration_changed": false
+    },
+    {
+      "interval": 3,
+      "phase": "stable",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0164,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "configuration_changed": false
+    },
+    {
+      "interval": 4,
+      "phase": "drifting",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0164,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "configuration_changed": false
+    },
+    {
+      "interval": 5,
+      "phase": "drifting",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0164,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_006"
+      ],
+      "configuration_changed": false
+    },
+    {
+      "interval": 6,
+      "phase": "drifting",
+      "selected_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_007"
+      ],
+      "created_views": [
+        "MV_007"
+      ],
+      "dropped_views": [
+        "MV_006"
+      ],
+      "create_results": [
+        {
+          "candidate_id": "MV_007",
+          "row_count": 66,
+          "storage_mb": 0.0048,
+          "materialization_time_ms": 1418.86
+        }
+      ],
+      "drop_results": [
+        {
+          "candidate_id": "MV_006",
+          "latency_ms": 0.19
+        }
+      ],
+      "adaptation_latency_ms": 1419.05,
+      "storage_used_mb": 0.0177,
+      "physical_views": [
+        "MV_001",
+        "MV_003",
+        "MV_004",
+        "MV_007"
+      ],
+      "configuration_changed": true
+    },
+    {
+      "interval": 7,
+      "phase": "bursty",
+      "selected_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "created_views": [
+        "MV_005"
+      ],
+      "dropped_views": [
+        "MV_003"
+      ],
+      "create_results": [
+        {
+          "candidate_id": "MV_005",
+          "row_count": 130,
+          "storage_mb": 0.0056,
+          "materialization_time_ms": 1210.49
+        }
+      ],
+      "drop_results": [
+        {
+          "candidate_id": "MV_003",
+          "latency_ms": 0.18
+        }
+      ],
+      "adaptation_latency_ms": 1210.67,
+      "storage_used_mb": 0.0183,
+      "physical_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "configuration_changed": true
+    },
+    {
+      "interval": 8,
+      "phase": "bursty",
+      "selected_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0183,
+      "physical_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "configuration_changed": false
+    },
+    {
+      "interval": 9,
+      "phase": "bursty",
+      "selected_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "created_views": [],
+      "dropped_views": [],
+      "create_results": [],
+      "drop_results": [],
+      "adaptation_latency_ms": 0,
+      "storage_used_mb": 0.0183,
+      "physical_views": [
+        "MV_001",
+        "MV_004",
+        "MV_005",
+        "MV_007"
+      ],
+      "configuration_changed": false
+    }
+  ],
+  "summary": {
+    "intervals_evaluated": 9,
+    "configuration_changes": 3,
+    "views_created": 6,
+    "views_dropped": 2,
+    "total_create_time_ms": 13199.66,
+    "total_drop_time_ms": 0.37,
+    "average_adaptation_latency_ms": 4400.01,
+    "maximum_storage_used_mb": 0.0183,
+    "final_views": [
+      "MV_001",
+      "MV_004",
+      "MV_005",
+      "MV_007"
+    ]
+  }
+}

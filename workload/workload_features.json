@@ -1,0 +1,305 @@
+[
+  {
+    "query_id": "q01",
+    "sql_file": "workload/queries/q01.sql",
+    "features": {
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 2,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        }
+      ],
+      "num_joins": 1,
+      "filters": "",
+      "has_filter": false,
+      "group_by": [
+        "i_category"
+      ],
+      "num_group_by": 1,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 2
+    }
+  },
+  {
+    "query_id": "q02",
+    "sql_file": "workload/queries/q02.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "store_sales"
+      ],
+      "num_tables": 2,
+      "joins": [
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 1,
+      "filters": "",
+      "has_filter": false,
+      "group_by": [
+        "d_year",
+        "d_moy"
+      ],
+      "num_group_by": 2,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 2
+    }
+  },
+  {
+    "query_id": "q03",
+    "sql_file": "workload/queries/q03.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 3,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        },
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 2,
+      "filters": "",
+      "has_filter": false,
+      "group_by": [
+        "d_year",
+        "i_category"
+      ],
+      "num_group_by": 2,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 1
+    }
+  },
+  {
+    "query_id": "q04",
+    "sql_file": "workload/queries/q04.sql",
+    "features": {
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 2,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        }
+      ],
+      "num_joins": 1,
+      "filters": "i_category = 'music'",
+      "has_filter": true,
+      "group_by": [
+        "i_category"
+      ],
+      "num_group_by": 1,
+      "aggregates": [
+        "avg",
+        "sum"
+      ],
+      "num_aggregates": 2
+    }
+  },
+  {
+    "query_id": "q05",
+    "sql_file": "workload/queries/q05.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "store_sales"
+      ],
+      "num_tables": 2,
+      "joins": [
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 1,
+      "filters": "d_year between 1999 and 2001",
+      "has_filter": true,
+      "group_by": [
+        "d_year"
+      ],
+      "num_group_by": 1,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 1
+    }
+  },
+  {
+    "query_id": "q06",
+    "sql_file": "workload/queries/q06.sql",
+    "features": {
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 2,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        }
+      ],
+      "num_joins": 1,
+      "filters": "",
+      "has_filter": false,
+      "group_by": [
+        "i_category",
+        "i_class"
+      ],
+      "num_group_by": 2,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 1
+    }
+  },
+  {
+    "query_id": "q07",
+    "sql_file": "workload/queries/q07.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 3,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        },
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 2,
+      "filters": "d_year = 2000",
+      "has_filter": true,
+      "group_by": [
+        "d_year",
+        "i_category"
+      ],
+      "num_group_by": 2,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 1
+    }
+  },
+  {
+    "query_id": "q08",
+    "sql_file": "workload/queries/q08.sql",
+    "features": {
+      "tables": [
+        "store_sales"
+      ],
+      "num_tables": 1,
+      "joins": [],
+      "num_joins": 0,
+      "filters": "",
+      "has_filter": false,
+      "group_by": [
+        "ss_store_sk"
+      ],
+      "num_group_by": 1,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 2
+    }
+  },
+  {
+    "query_id": "q09",
+    "sql_file": "workload/queries/q09.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 3,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        },
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 2,
+      "filters": "i_category in ('music', 'books', 'sports')",
+      "has_filter": true,
+      "group_by": [
+        "i_category",
+        "d_year"
+      ],
+      "num_group_by": 2,
+      "aggregates": [
+        "count",
+        "sum"
+      ],
+      "num_aggregates": 2
+    }
+  },
+  {
+    "query_id": "q10",
+    "sql_file": "workload/queries/q10.sql",
+    "features": {
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "num_tables": 3,
+      "joins": [
+        {
+          "table": "item",
+          "condition": "ss_item_sk = i_item_sk"
+        },
+        {
+          "table": "date_dim",
+          "condition": "ss_sold_date_sk = d_date_sk"
+        }
+      ],
+      "num_joins": 2,
+      "filters": "d_year >= 2000",
+      "has_filter": true,
+      "group_by": [
+        "d_year",
+        "i_category",
+        "i_brand"
+      ],
+      "num_group_by": 3,
+      "aggregates": [
+        "sum"
+      ],
+      "num_aggregates": 1
+    }
+  }
+]

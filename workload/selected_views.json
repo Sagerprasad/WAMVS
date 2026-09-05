@@ -1,0 +1,94 @@
+[
+  {
+    "candidate_id": "MV_001",
+    "frequency": 2,
+    "storage_mb": 0.005,
+    "utility": 400.0,
+    "row_count": 11,
+    "materialization_time_ms": 6817.78,
+    "source_queries": [
+      "q01",
+      "q04"
+    ],
+    "tables": [
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "i_category"
+    ],
+    "measures": [
+      "revenue",
+      "profit",
+      "total_quantity",
+      "avg_price"
+    ]
+  },
+  {
+    "candidate_id": "MV_003",
+    "frequency": 2,
+    "storage_mb": 0.005,
+    "utility": 400.0,
+    "row_count": 66,
+    "materialization_time_ms": 1675.58,
+    "source_queries": [
+      "q03",
+      "q07"
+    ],
+    "tables": [
+      "date_dim",
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year",
+      "i_category"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ]
+  },
+  {
+    "candidate_id": "MV_004",
+    "frequency": 1,
+    "storage_mb": 0.0029,
+    "utility": 344.82758620689657,
+    "row_count": 6,
+    "materialization_time_ms": 1116.47,
+    "source_queries": [
+      "q05"
+    ],
+    "tables": [
+      "date_dim",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year"
+    ],
+    "measures": [
+      "revenue"
+    ]
+  },
+  {
+    "candidate_id": "MV_006",
+    "frequency": 1,
+    "storage_mb": 0.0035,
+    "utility": 285.7142857142857,
+    "row_count": 7,
+    "materialization_time_ms": 1139.36,
+    "source_queries": [
+      "q08"
+    ],
+    "tables": [
+      "store_sales"
+    ],
+    "group_by": [
+      "ss_store_sk"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ]
+  }
+]

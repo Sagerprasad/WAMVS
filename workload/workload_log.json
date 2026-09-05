@@ -1,0 +1,72 @@
+[
+  {
+    "query_id": "q01",
+    "timestamp": "2026-09-06T00:55:05.717954",
+    "execution_time_ms": 4871.74,
+    "result_rows": 11,
+    "status": "success"
+  },
+  {
+    "query_id": "q02",
+    "timestamp": "2026-09-06T00:55:06.880127",
+    "execution_time_ms": 1162.05,
+    "result_rows": 61,
+    "status": "success"
+  },
+  {
+    "query_id": "q03",
+    "timestamp": "2026-09-06T00:55:07.685860",
+    "execution_time_ms": 805.61,
+    "result_rows": 66,
+    "status": "success"
+  },
+  {
+    "query_id": "q04",
+    "timestamp": "2026-09-06T00:55:08.226423",
+    "execution_time_ms": 540.45,
+    "result_rows": 1,
+    "status": "success"
+  },
+  {
+    "query_id": "q05",
+    "timestamp": "2026-09-06T00:55:08.749416",
+    "execution_time_ms": 522.9,
+    "result_rows": 3,
+    "status": "success"
+  },
+  {
+    "query_id": "q06",
+    "timestamp": "2026-09-06T00:55:09.266660",
+    "execution_time_ms": 517.14,
+    "result_rows": 130,
+    "status": "success"
+  },
+  {
+    "query_id": "q07",
+    "timestamp": "2026-09-06T00:55:09.842089",
+    "execution_time_ms": 575.31,
+    "result_rows": 11,
+    "status": "success"
+  },
+  {
+    "query_id": "q08",
+    "timestamp": "2026-09-06T00:55:10.461622",
+    "execution_time_ms": 619.4,
+    "result_rows": 7,
+    "status": "success"
+  },
+  {
+    "query_id": "q09",
+    "timestamp": "2026-09-06T00:55:11.120078",
+    "execution_time_ms": 658.36,
+    "result_rows": 18,
+    "status": "success"
+  },
+  {
+    "query_id": "q10",
+    "timestamp": "2026-09-06T00:55:11.801465",
+    "execution_time_ms": 681.29,
+    "result_rows": 3156,
+    "status": "success"
+  }
+]

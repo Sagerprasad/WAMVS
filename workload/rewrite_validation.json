@@ -1,0 +1,68 @@
+[
+  {
+    "query_id": "q01",
+    "view": "MV_001",
+    "original_rows": 11,
+    "rewritten_rows": 11,
+    "original_time_ms": 4785.84,
+    "rewritten_time_ms": 981.24,
+    "speedup": 4.877,
+    "result_match": true,
+    "status": "PASS"
+  },
+  {
+    "query_id": "q03",
+    "view": "MV_003",
+    "original_rows": 66,
+    "rewritten_rows": 66,
+    "original_time_ms": 1213.41,
+    "rewritten_time_ms": 493.07,
+    "speedup": 2.461,
+    "result_match": true,
+    "status": "PASS"
+  },
+  {
+    "query_id": "q04",
+    "view": "MV_001",
+    "original_rows": 1,
+    "rewritten_rows": 1,
+    "original_time_ms": 526.9,
+    "rewritten_time_ms": 222.13,
+    "speedup": 2.372,
+    "result_match": true,
+    "status": "PASS"
+  },
+  {
+    "query_id": "q05",
+    "view": "MV_004",
+    "original_rows": 3,
+    "rewritten_rows": 3,
+    "original_time_ms": 581.29,
+    "rewritten_time_ms": 437.68,
+    "speedup": 1.328,
+    "result_match": true,
+    "status": "PASS"
+  },
+  {
+    "query_id": "q07",
+    "view": "MV_003",
+    "original_rows": 11,
+    "rewritten_rows": 11,
+    "original_time_ms": 691.3,
+    "rewritten_time_ms": 179.2,
+    "speedup": 3.858,
+    "result_match": true,
+    "status": "PASS"
+  },
+  {
+    "query_id": "q08",
+    "view": "MV_006",
+    "original_rows": 7,
+    "rewritten_rows": 7,
+    "original_time_ms": 471.61,
+    "rewritten_time_ms": 420.49,
+    "speedup": 1.122,
+    "result_match": true,
+    "status": "PASS"
+  }
+]

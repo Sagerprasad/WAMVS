@@ -1,0 +1,20 @@
+[
+  {
+    "candidate_id": "MV_003",
+    "status": "materialized",
+    "row_count": 66,
+    "materialization_time_ms": 7858.77,
+    "storage_bytes": 4258,
+    "storage_mb": 0.0041,
+    "delta_path": "data/tpcds/delta/MV_003"
+  },
+  {
+    "candidate_id": "MV_007",
+    "status": "materialized",
+    "row_count": 7,
+    "materialization_time_ms": 1328.86,
+    "storage_bytes": 3701,
+    "storage_mb": 0.0035,
+    "delta_path": "data/tpcds/delta/MV_007"
+  }
+]
