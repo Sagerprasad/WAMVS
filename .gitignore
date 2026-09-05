@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Spark
+.sparkStaging/
+metastore_db/
+derby.log/
+
+# WAMVS generated data
+data/tpcds/raw/
+data/tpcds/delta/
+data/delta/
+data/test_products/
+
+# Experiment outputs
+results/
+*.log
+
+# Temporary files
+tmp/
+temp/
