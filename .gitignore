@@ -26,3 +26,6 @@ results/
 # Temporary files
 tmp/
 temp/
+
+# Generated incremental test data
+/data/tpcds/incremental/
