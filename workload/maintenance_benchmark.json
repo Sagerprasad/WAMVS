@@ -1,0 +1,68 @@
+{
+  "target_view": "MV_005",
+  "batch_sizes": [
+    100,
+    500,
+    1000,
+    5000,
+    10000
+  ],
+  "results": [
+    {
+      "batch_size": 100,
+      "full_refresh_groups": 130,
+      "incremental_groups": 1,
+      "full_refresh_time_ms": 729.61,
+      "incremental_refresh_time_ms": 372.61,
+      "speedup": 1.96,
+      "time_reduction_percent": 48.93,
+      "differences": 0,
+      "correctness": true
+    },
+    {
+      "batch_size": 500,
+      "full_refresh_groups": 130,
+      "incremental_groups": 2,
+      "full_refresh_time_ms": 566.81,
+      "incremental_refresh_time_ms": 288.85,
+      "speedup": 1.96,
+      "time_reduction_percent": 49.04,
+      "differences": 0,
+      "correctness": true
+    },
+    {
+      "batch_size": 1000,
+      "full_refresh_groups": 130,
+      "incremental_groups": 7,
+      "full_refresh_time_ms": 579.56,
+      "incremental_refresh_time_ms": 290.58,
+      "speedup": 1.99,
+      "time_reduction_percent": 49.86,
+      "differences": 0,
+      "correctness": true
+    },
+    {
+      "batch_size": 5000,
+      "full_refresh_groups": 130,
+      "incremental_groups": 24,
+      "full_refresh_time_ms": 521.53,
+      "incremental_refresh_time_ms": 285.12,
+      "speedup": 1.83,
+      "time_reduction_percent": 45.33,
+      "differences": 0,
+      "correctness": true
+    },
+    {
+      "batch_size": 10000,
+      "full_refresh_groups": 130,
+      "incremental_groups": 39,
+      "full_refresh_time_ms": 546.2,
+      "incremental_refresh_time_ms": 274.37,
+      "speedup": 1.99,
+      "time_reduction_percent": 49.77,
+      "differences": 0,
+      "correctness": true
+    }
+  ],
+  "all_correct": true
+}

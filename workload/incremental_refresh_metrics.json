@@ -1,0 +1,14 @@
+{
+  "target_view": "MV_005",
+  "batch_rows": 1000,
+  "existing_mv_rows": 130,
+  "incremental_contribution_groups": 104,
+  "full_refresh_groups": 130,
+  "updated_mv_groups": 130,
+  "full_refresh_time_ms": 1206.07,
+  "incremental_refresh_time_ms": 607.84,
+  "maintenance_speedup": 1.98,
+  "time_reduction_percent": 49.6,
+  "correctness": true,
+  "differences": 0
+}
