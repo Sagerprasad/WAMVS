@@ -1,712 +1,352 @@
 from pathlib import Path
 import json
+import subprocess
+import sys
 import shutil
-import time
 
-from pyspark.sql import SparkSession
-from delta import configure_spark_with_delta_pip
+ROOT = Path(__file__).resolve().parent.parent
 
+DRIFT_FILE = ROOT / "workload" / "drift_workload.json"
+FREQ_FILE = ROOT / "workload" / "adaptive_frequency.json"
+SELECTED_FILE = ROOT / "workload" / "selected_views.json"
+REWRITE_FILE = ROOT / "workload" / "rewrite_plan.json"
+RESULT_FILE = ROOT / "workload" / "adaptive_experiment.json"
 
-SELECTION_FILE = Path(
-    "workload/adaptive_selection.json"
-)
-
-CANDIDATE_FILE = Path(
-    "workload/candidate_views.json"
-)
-
-DELTA_DIR = Path(
-    "data/tpcds/delta"
-)
-
-OUTPUT_FILE = Path(
-    "workload/adaptation_metrics.json"
-)
+SELECTOR = ROOT / "src" / "selector" / "selector.py"
+APPLY = ROOT / "src" / "materialization" / "apply_selection.py"
+REWRITER = ROOT / "src" / "rewriter.py"
+FREQ_SCRIPT = ROOT / "src" / "workload_monitor" / "adaptive_frequency.py"
+MATERIALIZER = ROOT / "src" / "materialization" / "generic_materializer.py"
 
 
-def create_spark():
-
-    builder = (
-        SparkSession.builder
-        .appName("WAMVS-Adaptive-Controller")
-        .master("local[8]")
-        .config("spark.driver.memory", "6g")
-        .config("spark.sql.shuffle.partitions", "64")
-        .config(
-            "spark.sql.extensions",
-            "io.delta.sql.DeltaSparkSessionExtension"
-        )
-        .config(
-            "spark.sql.catalog.spark_catalog",
-            "org.apache.spark.sql.delta.catalog.DeltaCatalog"
-        )
-    )
-
-    return configure_spark_with_delta_pip(
-        builder
-    ).getOrCreate()
-
-
-def load_json(path):
-    return json.loads(
-        path.read_text()
-    )
-
-
-def register_base_tables(spark):
-
-    for path in sorted(
-        DELTA_DIR.iterdir()
-    ):
-
-        if not path.is_dir():
-            continue
-
-        # Never register an MV as a base table here.
-        if path.name.startswith("MV_"):
-            continue
-
-        (
-            spark.read
-            .format("delta")
-            .load(str(path))
-            .createOrReplaceTempView(
-                path.name
-            )
-        )
-
-
-def generate_sql(candidate):
-
-    group_by = candidate["group_by"]
-    expressions = candidate[
-        "measure_expressions"
-    ]
-
-    tables = candidate["tables"]
-    joins = candidate["joins"]
-
-    select_columns = []
-
-    for column in group_by:
-        select_columns.append(column)
-
-    for measure, expression in expressions.items():
-
-        select_columns.append(
-            f"{expression} AS {measure}"
-        )
-
-    if "store_sales" in tables:
-        base_table = "store_sales"
-    else:
-        base_table = tables[0]
-
-    sql = (
-        "SELECT\n    "
-        + ",\n    ".join(
-            select_columns
-        )
-        + f"\nFROM {base_table}"
-    )
-
-    for join in joins:
-
-        sql += (
-            f"\nJOIN {join['table']}"
-            f"\n    ON {join['condition']}"
-        )
-
-    if group_by:
-
-        sql += (
-            "\nGROUP BY "
-            + ", ".join(group_by)
-        )
-
-    return sql
-
-
-def directory_size(path):
-
+def load_json(path, default=None):
     if not path.exists():
-        return 0
+        return default
+    with open(path) as f:
+        return json.load(f)
 
-    return sum(
-        f.stat().st_size
-        for f in path.rglob("*")
-        if f.is_file()
+
+def run_script(script):
+    print(f"\n>>> Running {script.name}")
+    result = subprocess.run(
+        [sys.executable, str(script)],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+
+    if result.stdout:
+        print(result.stdout)
+
+    if result.returncode != 0:
+        if result.stderr:
+            print(result.stderr)
+        raise RuntimeError(f"{script.name} failed")
+
+    return result
+
+
+def get_selected():
+    data = load_json(SELECTED_FILE, [])
+
+    selected = []
+
+    for view in data:
+        selected.append(view["candidate_id"])
+
+    return selected
+
+
+def get_storage():
+    data = load_json(SELECTED_FILE, [])
+
+    return round(
+        sum(float(v.get("storage_mb", 0)) for v in data),
+        4,
     )
 
 
-def materialize_view(
-    spark,
-    candidate
-):
+def get_hit_rate():
+    data = load_json(REWRITE_FILE, [])
 
-    candidate_id = candidate[
-        "candidate_id"
-    ]
+    if isinstance(data, dict):
+        rewritten = data.get("rewritten", [])
+        total = data.get("total_queries", 10)
 
-    output_path = (
-        DELTA_DIR / candidate_id
-    )
+        if isinstance(rewritten, list):
+            return round(len(rewritten) / total * 100, 2)
 
-    if output_path.exists():
+    if isinstance(data, list):
+        total = len(data)
 
-        shutil.rmtree(
-            output_path
-        )
+        if total == 0:
+            return 0.0
 
-    sql = generate_sql(
-        candidate
-    )
+        rewritten = 0
 
-    start = time.perf_counter()
+        for item in data:
+            if item.get("match") is True:
+                rewritten += 1
+            elif item.get("rewritten") is True:
+                rewritten += 1
+            elif item.get("result") == "REWRITE":
+                rewritten += 1
 
-    df = spark.sql(sql)
-
-    row_count = df.count()
-
-    (
-        df.write
-        .format("delta")
-        .mode("overwrite")
-        .save(
-            str(output_path)
-        )
-    )
-
-    elapsed_ms = (
-        time.perf_counter()
-        - start
-    ) * 1000
-
-    storage_mb = (
-        directory_size(
-            output_path
-        )
-        / (1024 * 1024)
-    )
-
-    return {
-        "candidate_id":
-            candidate_id,
-
-        "row_count":
-            row_count,
-
-        "storage_mb":
-            round(
-                storage_mb,
-                4
-            ),
-
-        "materialization_time_ms":
-            round(
-                elapsed_ms,
-                2
-            ),
-    }
-
-
-def drop_view(candidate_id):
-
-    path = (
-        DELTA_DIR / candidate_id
-    )
-
-    if path.exists():
-
-        start = time.perf_counter()
-
-        shutil.rmtree(
-            path
-        )
-
-        elapsed_ms = (
-            time.perf_counter()
-            - start
-        ) * 1000
-
-        return round(
-            elapsed_ms,
-            2
-        )
+        return round(rewritten / total * 100, 2)
 
     return 0.0
 
 
 def main():
+    print("=" * 75)
+    print("WAMVS END-TO-END ADAPTIVE EXPERIMENT")
+    print("=" * 75)
 
-    selections = load_json(
-        SELECTION_FILE
-    )
+    workload = load_json(DRIFT_FILE)
 
-    candidates = load_json(
-        CANDIDATE_FILE
-    )
-
-    candidates_by_id = {
-        candidate["candidate_id"]:
-            candidate
-        for candidate in candidates
-    }
-
-    spark = create_spark()
-
-    try:
-
-        register_base_tables(
-            spark
+    if not workload:
+        raise FileNotFoundError(
+            "workload/drift_workload.json was not found."
         )
 
-        print("=" * 80)
-        print("WAMVS ADAPTIVE CONTROLLER")
-        print("=" * 80)
+    if isinstance(workload, dict):
+        intervals = workload.get("intervals", [])
+    else:
+        intervals = workload
 
-        print(
-            "\nThe controller will replay "
-            "the adaptive workload decisions."
+    if not intervals:
+        raise ValueError("No workload intervals found.")
+
+    print(f"\nIntervals available: {len(intervals)}")
+
+    # Backup current state.
+    backup_dir = ROOT / "workload" / "adaptive_backup"
+    backup_dir.mkdir(exist_ok=True)
+
+    for source in [
+        FREQ_FILE,
+        SELECTED_FILE,
+        REWRITE_FILE,
+    ]:
+        if source.exists():
+            shutil.copy2(
+                source,
+                backup_dir / source.name,
+            )
+
+    experiment = []
+
+    # Start this adaptive experiment from a clean frequency state.
+    # Previous experiment history is preserved in adaptive_backup/.
+    frequencies = {}
+
+    # Reset the frequency file so old workload history cannot
+    # contaminate this experiment.
+    with open(FREQ_FILE, "w") as f:
+        json.dump([], f, indent=2)
+
+    decay = 0.70
+
+    for interval in intervals:
+        interval_id = interval.get(
+            "interval",
+            interval.get("interval_id", len(experiment) + 1),
         )
 
-        previous_selected = set()
-
-        history = []
-
-        total_create_time = 0.0
-        total_drop_time = 0.0
-
-        total_created = 0
-        total_dropped = 0
-
-        for interval in selections:
-
-            interval_id = interval[
-                "interval"
-            ]
-
-            phase = interval[
-                "phase"
-            ]
-
-            desired = set(
-                interval[
-                    "selected_views"
-                ]
-            )
-
-            to_create = sorted(
-                desired
-                - previous_selected
-            )
-
-            to_drop = sorted(
-                previous_selected
-                - desired
-            )
-
-            print(
-                "\n" + "-" * 80
-            )
-
-            print(
-                f"Interval {interval_id:2d} | "
-                f"{phase:9s}"
-            )
-
-            print(
-                "Desired: "
-                + ", ".join(
-                    sorted(desired)
-                )
-            )
-
-            create_results = []
-            drop_results = []
-
-            # -------------------------------------------------
-            # DROP first
-            # -------------------------------------------------
-
-            for candidate_id in to_drop:
-
-                elapsed = drop_view(
-                    candidate_id
-                )
-
-                total_drop_time += elapsed
-                total_dropped += 1
-
-                drop_results.append({
-                    "candidate_id":
-                        candidate_id,
-
-                    "latency_ms":
-                        elapsed,
-                })
-
-                print(
-                    f"  DROP   {candidate_id} "
-                    f"({elapsed:.2f} ms)"
-                )
-
-            # -------------------------------------------------
-            # CREATE
-            # -------------------------------------------------
-
-            for candidate_id in to_create:
-
-                candidate = candidates_by_id.get(
-                    candidate_id
-                )
-
-                if candidate is None:
-
-                    print(
-                        f"  ERROR: candidate "
-                        f"{candidate_id} not found"
-                    )
-
-                    continue
-
-                try:
-
-                    result = materialize_view(
-                        spark,
-                        candidate
-                    )
-
-                    elapsed = result[
-                        "materialization_time_ms"
-                    ]
-
-                    total_create_time += elapsed
-                    total_created += 1
-
-                    create_results.append(
-                        result
-                    )
-
-                    print(
-                        f"  CREATE {candidate_id} "
-                        f"({elapsed:.2f} ms, "
-                        f"{result['storage_mb']:.4f} MB)"
-                    )
-
-                except Exception as e:
-
-                    print(
-                        f"  CREATE {candidate_id} "
-                        f"FAILED: {e}"
-                    )
-
-            # -------------------------------------------------
-            # Measure current physical storage
-            # -------------------------------------------------
-
-            current_storage = 0.0
-            physical_views = []
-
-            for candidate_id in sorted(
-                desired
-            ):
-
-                path = (
-                    DELTA_DIR
-                    / candidate_id
-                )
-
-                if path.exists():
-
-                    size = (
-                        directory_size(
-                            path
-                        )
-                        / (1024 * 1024)
-                    )
-
-                    current_storage += size
-
-                    physical_views.append(
-                        candidate_id
-                    )
-
-            # -------------------------------------------------
-            # Adaptation latency
-            # -------------------------------------------------
-
-            create_latency = sum(
-                item["materialization_time_ms"]
-                for item in create_results
-            )
-
-            drop_latency = sum(
-                item["latency_ms"]
-                for item in drop_results
-            )
-
-            adaptation_latency = (
-                create_latency
-                + drop_latency
-            )
-
-            changed = (
-                desired
-                != previous_selected
-            )
-
-            history.append({
-
-                "interval":
-                    interval_id,
-
-                "phase":
-                    phase,
-
-                "selected_views":
-                    sorted(desired),
-
-                "created_views":
-                    to_create,
-
-                "dropped_views":
-                    to_drop,
-
-                "create_results":
-                    create_results,
-
-                "drop_results":
-                    drop_results,
-
-                "adaptation_latency_ms":
-                    round(
-                        adaptation_latency,
-                        2
-                    ),
-
-                "storage_used_mb":
-                    round(
-                        current_storage,
-                        4
-                    ),
-
-                "physical_views":
-                    physical_views,
-
-                "configuration_changed":
-                    changed,
-            })
-
-            print(
-                f"  Adaptation latency: "
-                f"{adaptation_latency:.2f} ms"
-            )
-
-            print(
-                f"  Physical storage : "
-                f"{current_storage:.4f} MB"
-            )
-
-            previous_selected = desired
-
-        # -----------------------------------------------------
-        # Final physical state
-        # -----------------------------------------------------
-
-        all_mv_dirs = [
-            path
-            for path in DELTA_DIR.iterdir()
-            if path.is_dir()
-            and path.name.startswith("MV_")
-        ]
-
-        desired_final = (
-            previous_selected
+        phase = interval.get(
+            "phase",
+            "unknown",
         )
 
-        for path in all_mv_dirs:
-
-            if path.name not in desired_final:
-
-                shutil.rmtree(
-                    path
-                )
-
-        # -----------------------------------------------------
-        # Summary
-        # -----------------------------------------------------
-
-        changed_intervals = sum(
-            1
-            for item in history
-            if item[
-                "configuration_changed"
-            ]
-        )
-
-        adaptation_events = [
-            item[
-                "adaptation_latency_ms"
-            ]
-            for item in history
-            if item[
-                "configuration_changed"
-            ]
-        ]
-
-        if adaptation_events:
-
-            average_adaptation = (
-                sum(adaptation_events)
-                / len(adaptation_events)
-            )
-
-        else:
-
-            average_adaptation = 0.0
-
-        max_storage = max(
-            (
-                item[
-                    "storage_used_mb"
-                ]
-                for item in history
+        # drift_workload.json stores workload frequencies
+        # under the "query_counts" field.
+        queries = interval.get(
+            "query_counts",
+            interval.get(
+                "queries",
+                interval.get("workload", {}),
             ),
-            default=0.0
         )
 
-        output = {
+        print("\n")
+        print("=" * 75)
+        print(f"INTERVAL {interval_id} | {phase}")
+        print("=" * 75)
 
-            "storage_budget_mb":
-                0.0200,
+        # ---------------------------------------------------------
+        # Update exponentially decayed workload frequencies.
+        # ---------------------------------------------------------
+        all_queries = set(frequencies.keys()) | set(queries.keys())
 
-            "intervals":
-                history,
+        updated = {}
 
-            "summary": {
+        for q in all_queries:
+            old = frequencies.get(q, 0.0)
+            current = float(queries.get(q, 0))
 
-                "intervals_evaluated":
-                    len(history),
+            updated[q] = decay * old + current
 
-                "configuration_changes":
-                    changed_intervals,
+        frequencies = updated
 
-                "views_created":
-                    total_created,
+        # The selector expects a list of interval records.
+        # Preserve the complete adaptive-frequency history.
+        existing_frequency_history = []
 
-                "views_dropped":
-                    total_dropped,
+        if FREQ_FILE.exists():
+            try:
+                with open(FREQ_FILE) as f:
+                    existing_frequency_history = json.load(f)
 
-                "total_create_time_ms":
-                    round(
-                        total_create_time,
-                        2
-                    ),
+                if not isinstance(existing_frequency_history, list):
+                    existing_frequency_history = []
+            except Exception:
+                existing_frequency_history = []
 
-                "total_drop_time_ms":
-                    round(
-                        total_drop_time,
-                        2
-                    ),
+        # Keep only records produced by this experiment run.
+        existing_frequency_history = [
+            x for x in existing_frequency_history
+            if isinstance(x, dict)
+            and x.get("interval") != interval_id
+        ]
 
-                "average_adaptation_latency_ms":
-                    round(
-                        average_adaptation,
-                        2
-                    ),
+        existing_frequency_history.append({
+            "interval": interval_id,
+            "phase": phase,
+            "decay": decay,
+            "frequencies": frequencies,
+        })
 
-                "maximum_storage_used_mb":
-                    round(
-                        max_storage,
-                        4
-                    ),
-
-                "final_views":
-                    sorted(
-                        desired_final
-                    ),
-            },
-        }
-
-        OUTPUT_FILE.write_text(
-            json.dumps(
-                output,
-                indent=2
+        with open(FREQ_FILE, "w") as f:
+            json.dump(
+                existing_frequency_history,
+                f,
+                indent=2,
             )
-        )
 
-        print("\n" + "=" * 80)
-        print("ADAPTIVE CONTROLLER SUMMARY")
-        print("=" * 80)
+        print("\nDecayed frequencies:")
 
-        print(
-            f"Intervals evaluated : "
-            f"{len(history)}"
-        )
-
-        print(
-            f"Configuration changes: "
-            f"{changed_intervals}"
-        )
-
-        print(
-            f"Views created       : "
-            f"{total_created}"
-        )
-
-        print(
-            f"Views dropped       : "
-            f"{total_dropped}"
-        )
-
-        print(
-            f"Total CREATE time   : "
-            f"{total_create_time:.2f} ms"
-        )
-
-        print(
-            f"Total DROP time     : "
-            f"{total_drop_time:.2f} ms"
-        )
-
-        print(
-            f"Avg adaptation time : "
-            f"{average_adaptation:.2f} ms"
-        )
-
-        print(
-            f"Maximum storage     : "
-            f"{max_storage:.4f} MB"
-        )
-
-        print(
-            f"Storage budget      : "
-            f"0.0200 MB"
-        )
-
-        print(
-            "\nFinal physical MVs:"
-        )
-
-        for view in sorted(
-            desired_final
-        ):
-
+        for q in sorted(frequencies):
             print(
-                f"  {view}"
+                f"  {q}: "
+                f"{frequencies[q]:.4f}"
             )
 
-        print(
-            f"\nMetrics: "
-            f"{OUTPUT_FILE}"
+        # ---------------------------------------------------------
+        # Restore all candidate MVs before making the next adaptive
+        # decision. This is necessary because a view dropped in one
+        # interval must be able to return in a later interval.
+        # ---------------------------------------------------------
+        run_script(MATERIALIZER)
+
+        # ---------------------------------------------------------
+        # Performance-aware selection.
+        # ---------------------------------------------------------
+        run_script(SELECTOR)
+
+        selected = get_selected()
+        storage = get_storage()
+
+        # ---------------------------------------------------------
+        # Track adaptive configuration changes.
+        # ---------------------------------------------------------
+        previous_selected = (
+            experiment[-1]["selected_views"]
+            if experiment
+            else []
         )
 
-        print("=" * 80)
+        added_views = sorted(
+            set(selected) - set(previous_selected)
+        )
 
-    finally:
+        dropped_views = sorted(
+            set(previous_selected) - set(selected)
+        )
 
-        spark.stop()
+        if added_views:
+            print(
+                "Added MVs    : "
+                + ", ".join(added_views)
+            )
+
+        if dropped_views:
+            print(
+                "Dropped MVs  : "
+                + ", ".join(dropped_views)
+            )
+
+        # ---------------------------------------------------------
+        # Apply physical MV state.
+        # ---------------------------------------------------------
+        run_script(APPLY)
+
+        # ---------------------------------------------------------
+        # Regenerate rewrite plan.
+        # ---------------------------------------------------------
+        run_script(REWRITER)
+
+        hit_rate = get_hit_rate()
+
+        print("\n")
+        print("-" * 75)
+        print(f"INTERVAL {interval_id} RESULT")
+        print("-" * 75)
+
+        print(
+            "Selected MVs : "
+            + ", ".join(selected)
+        )
+
+        print(
+            f"Storage      : {storage:.4f} MB"
+        )
+
+        print(
+            f"Hit rate     : {hit_rate:.2f}%"
+        )
+
+        experiment.append(
+            {
+                "interval": interval_id,
+                "phase": phase,
+                "workload": queries,
+                "decayed_frequency": frequencies.copy(),
+                "selected_views": selected,
+                "selected_count": len(selected),
+                "added_views": added_views,
+                "dropped_views": dropped_views,
+                "storage_mb": storage,
+                "hit_rate_percent": hit_rate,
+            }
+        )
+
+    with open(RESULT_FILE, "w") as f:
+        json.dump(
+            experiment,
+            f,
+            indent=2,
+        )
+
+    print("\n")
+    print("=" * 75)
+    print("ADAPTIVE EXPERIMENT COMPLETE")
+    print("=" * 75)
+
+    print(
+        f"\nResults written to:\n"
+        f"  {RESULT_FILE}"
+    )
+
+    print("\nConfiguration timeline:")
+
+    for row in experiment:
+        print(
+            f"  Interval {row['interval']} "
+            f"({row['phase']:<8}) | "
+            f"MVs={row['selected_views']} | "
+            f"storage={row['storage_mb']:.4f} MB | "
+            f"hit={row['hit_rate_percent']:.2f}%"
+        )
 
 
 if __name__ == "__main__":

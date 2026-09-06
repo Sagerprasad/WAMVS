@@ -1,0 +1,12 @@
+{
+  "query_id": "q08",
+  "candidate_id": "MV_006",
+  "baseline_median_ms": 149.04,
+  "mv_median_ms": 84.88,
+  "speedup": 1.756,
+  "improvement_pct": 43.05,
+  "baseline_rows": 7,
+  "mv_rows": 7,
+  "correct": true,
+  "storage_mb": 0.0035
+}
