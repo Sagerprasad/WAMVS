@@ -12,7 +12,7 @@
     "view": null,
     "original_sql": "SELECT\n    d_year,\n    d_moy,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit\nFROM store_sales\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, d_moy\nORDER BY d_year, d_moy;\n",
     "rewritten_sql": null,
-    "reason": "no selected MV"
+    "reason": "no structurally compatible selected MV"
   },
   {
     "query_id": "q03",
@@ -30,18 +30,18 @@
   },
   {
     "query_id": "q05",
-    "rewritten": true,
-    "view": "MV_004",
+    "rewritten": false,
+    "view": null,
     "original_sql": "SELECT\n    d_year,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nWHERE d_year BETWEEN 1999 AND 2001\nGROUP BY d_year\nORDER BY d_year;\n",
-    "rewritten_sql": "SELECT d_year, revenue FROM MV_004 WHERE d_year BETWEEN 1999 AND 2001;"
+    "rewritten_sql": null,
+    "reason": "no structurally compatible selected MV"
   },
   {
     "query_id": "q06",
-    "rewritten": false,
-    "view": null,
+    "rewritten": true,
+    "view": "MV_005",
     "original_sql": "SELECT\n    i_category,\n    i_class,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nGROUP BY i_category, i_class\nORDER BY revenue DESC;\n",
-    "rewritten_sql": null,
-    "reason": "no selected MV"
+    "rewritten_sql": "SELECT i_category, i_class, revenue FROM MV_005;"
   },
   {
     "query_id": "q07",
@@ -59,11 +59,10 @@
   },
   {
     "query_id": "q09",
-    "rewritten": false,
-    "view": null,
+    "rewritten": true,
+    "view": "MV_003",
     "original_sql": "SELECT\n    i_category,\n    d_year,\n    COUNT(*) AS transactions,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nWHERE i_category IN ('Music', 'Books', 'Sports')\nGROUP BY i_category, d_year\nORDER BY d_year, revenue DESC;\n",
-    "rewritten_sql": null,
-    "reason": "no selected MV"
+    "rewritten_sql": "SELECT i_category, d_year, count, revenue FROM MV_003 WHERE i_category IN ('Music', 'Books', 'Sports');"
   },
   {
     "query_id": "q10",
@@ -71,6 +70,6 @@
     "view": null,
     "original_sql": "SELECT\n    d_year,\n    i_category,\n    i_brand,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nWHERE d_year >= 2000\nGROUP BY d_year, i_category, i_brand\nORDER BY revenue DESC;\n",
     "rewritten_sql": null,
-    "reason": "no selected MV"
+    "reason": "no structurally compatible selected MV"
   }
 ]

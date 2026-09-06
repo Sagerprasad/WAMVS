@@ -1,0 +1,41 @@
+[
+  {
+    "query_id": "q02",
+    "candidate_id": "MV_002",
+    "baseline_median_ms": 428.43,
+    "mv_median_ms": 121.72,
+    "speedup": 3.52,
+    "improvement_pct": 71.59,
+    "baseline_rows": 61,
+    "mv_rows": 61,
+    "correct": true,
+    "storage_mb": 0.0048,
+    "materialization_time_ms": 1831.88
+  },
+  {
+    "query_id": "q06",
+    "candidate_id": "MV_005",
+    "baseline_median_ms": 332.74,
+    "mv_median_ms": 93.53,
+    "speedup": 3.558,
+    "improvement_pct": 71.89,
+    "baseline_rows": 130,
+    "mv_rows": 130,
+    "correct": true,
+    "storage_mb": 0.0056,
+    "materialization_time_ms": 1310.6
+  },
+  {
+    "query_id": "q10",
+    "candidate_id": "MV_007",
+    "baseline_median_ms": 429.62,
+    "mv_median_ms": 97.52,
+    "speedup": 4.405,
+    "improvement_pct": 77.3,
+    "baseline_rows": 3156,
+    "mv_rows": 3156,
+    "correct": true,
+    "storage_mb": 0.0468,
+    "materialization_time_ms": 1770.31
+  }
+]

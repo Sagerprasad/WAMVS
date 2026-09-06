@@ -30,9 +30,28 @@ QUERY_MEASURES = {
 
 
 def load_workload():
-    return json.loads(
-        WORKLOAD_FILE.read_text()
-    )
+    return json.loads(WORKLOAD_FILE.read_text())
+
+
+def canonicalize_columns(columns):
+    """
+    Treat GROUP BY columns as an unordered set for candidate identity.
+
+    Example:
+        [d_year, i_category]
+        [i_category, d_year]
+
+    become the same canonical representation.
+    """
+    return tuple(sorted(set(columns)))
+
+
+def canonicalize_tables(tables):
+    """
+    Canonicalize table order so that the same collection of tables
+    produces the same candidate identity.
+    """
+    return tuple(sorted(set(tables)))
 
 
 def generate_candidates(workload):
@@ -42,14 +61,25 @@ def generate_candidates(workload):
         qid = query["query_id"]
         features = query["features"]
 
-        tables = tuple(features["tables"])
-        group_by = tuple(features["group_by"])
+        # -----------------------------------------------------
+        # Canonical candidate identity
+        # -----------------------------------------------------
+        tables = canonicalize_tables(
+            features["tables"]
+        )
+
+        group_by = canonicalize_columns(
+            features["group_by"]
+        )
 
         key = (
             tables,
             group_by,
         )
 
+        # -----------------------------------------------------
+        # Create candidate if it does not exist
+        # -----------------------------------------------------
         if key not in candidates:
             candidates[key] = {
                 "candidate_id": f"MV_{len(candidates) + 1:03d}",
@@ -96,7 +126,12 @@ def generate_candidates(workload):
                     join_definition
                 )
 
-        candidate["source_queries"].append(qid)
+        # -----------------------------------------------------
+        # Track workload contribution
+        # -----------------------------------------------------
+        if qid not in candidate["source_queries"]:
+            candidate["source_queries"].append(qid)
+
         candidate["frequency"] += 1
 
     return list(candidates.values())

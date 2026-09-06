@@ -4,91 +4,294 @@ import re
 
 
 SELECTED_FILE = Path("workload/selected_views.json")
+CANDIDATE_FILE = Path("workload/candidate_views.json")
 QUERY_DIR = Path("workload/queries")
 OUTPUT_FILE = Path("workload/rewrite_plan.json")
+
+
+# -------------------------------------------------------------
+# Query requirements
+# -------------------------------------------------------------
+#
+# These describe what each workload query needs from a
+# materialized view.
+#
+# A view can answer a query when:
+#
+#   1. It contains the required grouping dimensions.
+#   2. It contains all required measures.
+#   3. The query's filters reference only grouping dimensions.
+#
+# The current prototype requires exact table coverage.
+# -------------------------------------------------------------
+
+QUERY_REQUIREMENTS = {
+
+    "q01": {
+        "tables": ["item", "store_sales"],
+        "group_by": ["i_category"],
+        "measures": ["revenue", "profit"],
+    },
+
+    "q02": {
+        "tables": ["date_dim", "store_sales"],
+        "group_by": ["d_year", "d_moy"],
+        "measures": ["revenue", "profit"],
+    },
+
+    "q03": {
+        "tables": ["date_dim", "item", "store_sales"],
+        "group_by": ["d_year", "i_category"],
+        "measures": ["revenue"],
+    },
+
+    "q04": {
+        "tables": ["item", "store_sales"],
+        "group_by": ["i_category"],
+        "measures": ["total_quantity", "avg_price"],
+    },
+
+    "q05": {
+        "tables": ["date_dim", "store_sales"],
+        "group_by": ["d_year"],
+        "measures": ["revenue"],
+    },
+
+    "q06": {
+        "tables": ["item", "store_sales"],
+        "group_by": ["i_category", "i_class"],
+        "measures": ["revenue"],
+    },
+
+    "q07": {
+        "tables": ["date_dim", "item", "store_sales"],
+        "group_by": ["d_year", "i_category"],
+        "measures": ["profit"],
+    },
+
+    "q08": {
+        "tables": ["store_sales"],
+        "group_by": ["ss_store_sk"],
+        "measures": ["revenue", "profit"],
+    },
+
+    "q09": {
+        "tables": ["date_dim", "item", "store_sales"],
+        "group_by": ["i_category", "d_year"],
+        "measures": ["count", "revenue"],
+    },
+
+    "q10": {
+        "tables": ["date_dim", "item", "store_sales"],
+        "group_by": ["d_year", "i_category", "i_brand"],
+        "measures": ["revenue"],
+    },
+}
+
+
+# -------------------------------------------------------------
+# Known safe filters
+# -------------------------------------------------------------
+
+QUERY_FILTERS = {
+
+    "q04": "i_category = 'Music'",
+
+    "q05": "d_year BETWEEN 1999 AND 2001",
+
+    "q07": "d_year = 2000",
+
+    "q09": (
+        "i_category IN ('Music', 'Books', 'Sports')"
+    ),
+
+    "q10": "d_year >= 2000",
+}
 
 
 def load_json(path):
     return json.loads(path.read_text())
 
 
-def normalize_sql(sql):
-    """Normalize SQL for simple structural matching."""
-
-    sql = sql.lower()
-    sql = re.sub(r"\s+", " ", sql)
-    sql = sql.replace(";", "").strip()
-
-    return sql
+def canonical_set(values):
+    return set(values)
 
 
-def extract_query_id(path):
-    return path.stem.lower()
+def tables_match(required_tables, view_tables):
+    """
+    Current prototype requires exact table coverage.
+    """
+
+    return (
+        canonical_set(required_tables)
+        ==
+        canonical_set(view_tables)
+    )
+
+
+def grouping_match(required_group_by, view_group_by):
+    """
+    A materialized view must contain exactly the query's
+    grouping dimensions.
+
+    The order of GROUP BY columns does not matter.
+    """
+
+    return (
+        canonical_set(required_group_by)
+        ==
+        canonical_set(view_group_by)
+    )
+
+
+def measures_available(required_measures, view_measures):
+    """
+    A view may contain additional measures.
+
+    The query only needs the required subset.
+    """
+
+    return canonical_set(required_measures).issubset(
+        canonical_set(view_measures)
+    )
+
+
+def filter_columns_are_safe(query_id, view):
+    """
+    A filter can be pushed to the materialized view only when
+    every referenced column is present in the view's GROUP BY.
+
+    This prevents filtering on columns that were not materialized.
+    """
+
+    condition = QUERY_FILTERS.get(query_id)
+
+    if not condition:
+        return True
+
+    condition_without_strings = re.sub(
+        r"'(?:''|[^'])*'",
+        "",
+        condition,
+    )
+
+    referenced_columns = re.findall(
+        r"\b[a-zA-Z_][a-zA-Z0-9_]*\b",
+        condition_without_strings,
+    )
+
+    sql_keywords = {
+        "BETWEEN",
+        "AND",
+        "OR",
+        "IN",
+        "NOT",
+        "LIKE",
+        "IS",
+        "NULL",
+    }
+
+    group_by = canonical_set(
+        view["group_by"]
+    )
+
+    for column in referenced_columns:
+
+        if column.upper() in sql_keywords:
+            continue
+
+        if column not in group_by:
+            return False
+
+    return True
 
 
 def can_rewrite(query_id, view):
     """
-    Determine whether a query can safely use a selected MV.
+    Structural/subsumption-style matching.
 
-    Current prototype uses the source_queries metadata generated
-    by the candidate generator.
+    A view can answer a query when:
 
-    This is deliberately conservative:
-    only queries explicitly represented by the MV are rewritten.
+        tables match
+        AND grouping dimensions match
+        AND required measures are available
+        AND filters can safely be evaluated on the view
     """
 
-    return query_id in view["source_queries"]
+    requirements = QUERY_REQUIREMENTS.get(
+        query_id
+    )
+
+    if requirements is None:
+        return False
+
+    if not tables_match(
+        requirements["tables"],
+        view["tables"],
+    ):
+        return False
+
+    if not grouping_match(
+        requirements["group_by"],
+        view["group_by"],
+    ):
+        return False
+
+    if not measures_available(
+        requirements["measures"],
+        view["measures"],
+    ):
+        return False
+
+    if not filter_columns_are_safe(
+        query_id,
+        view,
+    ):
+        return False
+
+    return True
 
 
 def build_rewritten_sql(query_id, view):
     """
-    Generate a simple query over the materialized view.
+    Generate a query directly over the materialized view.
 
-    The MV already contains the GROUP BY dimensions and required
-    aggregate measures, so the original joins and aggregation
-    are no longer necessary.
+    Only the dimensions and measures required by the original
+    query are projected.
     """
 
-    group_by = view["group_by"]
-    measures = view["measures"]
+    requirements = QUERY_REQUIREMENTS.get(
+        query_id
+    )
+
+    if requirements is None:
+        return None
+
     mv_name = view["candidate_id"]
 
     select_columns = []
 
-    # GROUP BY dimensions
-    for column in group_by:
+    # ---------------------------------------------------------
+    # Preserve the query's logical GROUP BY ordering.
+    # ---------------------------------------------------------
+
+    for column in requirements["group_by"]:
+
+        if column not in view["group_by"]:
+            return None
+
         select_columns.append(column)
 
-    # Required measures for this query
-    #
-    # We need to determine which measures the original query
-    # requested. The candidate stores the union of measures used
-    # by all source queries, so select only the measures associated
-    # with the current query.
-    #
-    # This mapping mirrors candidate_generator.py.
-    query_measures = {
-        "q01": ["revenue", "profit"],
-        "q02": ["revenue", "profit"],
-        "q03": ["revenue"],
-        "q04": ["total_quantity", "avg_price"],
-        "q05": ["revenue"],
-        "q06": ["revenue"],
-        "q07": ["profit"],
-        "q08": ["revenue", "profit"],
-        "q09": ["count", "revenue"],
-        "q10": ["revenue"],
-    }
+    # ---------------------------------------------------------
+    # Select only measures required by this query.
+    # ---------------------------------------------------------
 
-    required = query_measures.get(
-        query_id,
-        []
-    )
+    for measure in requirements["measures"]:
 
-    for measure in required:
+        if measure not in view["measures"]:
+            return None
 
-        if measure in measures:
-            select_columns.append(measure)
+        select_columns.append(measure)
 
     if not select_columns:
         return None
@@ -100,68 +303,22 @@ def build_rewritten_sql(query_id, view):
     )
 
     # ---------------------------------------------------------
-    # Preserve simple query filters that operate only on
-    # GROUP BY columns.
-    #
-    # For the initial prototype we handle the known filters.
+    # Apply safe filters.
     # ---------------------------------------------------------
-    filters = {
 
-        "q04": "i_category = 'Music'",
+    condition = QUERY_FILTERS.get(
+        query_id
+    )
 
-        "q05": "d_year BETWEEN 1999 AND 2001",
+    if condition:
 
-        "q07": "d_year = 2000",
+        if not filter_columns_are_safe(
+            query_id,
+            view,
+        ):
+            return None
 
-    }
-
-    if query_id in filters:
-
-        condition = filters[query_id]
-
-        # Extract actual column identifiers from the condition.
-        # Ignore SQL keywords and quoted string values.
-        # Remove quoted string literals before extracting
-        # identifiers. For example:
-        #
-        #   i_category = 'Music'
-        #
-        # should identify only i_category as a column.
-        condition_without_strings = re.sub(
-            r"'(?:''|[^'])*'",
-            "",
-            condition
-        )
-
-        referenced_columns = re.findall(
-            r"\b[a-zA-Z_][a-zA-Z0-9_]*\b",
-            condition_without_strings
-        )
-
-        sql_keywords = {
-            "BETWEEN",
-            "AND",
-            "OR",
-            "IN",
-            "NOT",
-            "LIKE",
-            "IS",
-            "NULL",
-        }
-
-        safe = True
-
-        for column in referenced_columns:
-
-            if column.upper() in sql_keywords:
-                continue
-
-            if column not in group_by:
-                safe = False
-                break
-
-        if safe:
-            sql += f" WHERE {condition}"
+        sql += f" WHERE {condition}"
 
     return sql + ";"
 
@@ -172,38 +329,62 @@ def main():
         SELECTED_FILE
     )
 
+    # Load the canonical candidate list as a consistency check.
+    candidates = load_json(
+        CANDIDATE_FILE
+    )
+
+    candidate_ids = {
+        candidate["candidate_id"]
+        for candidate in candidates
+    }
+
     query_files = sorted(
         QUERY_DIR.glob("q*.sql")
     )
 
     print("=" * 75)
-    print("WAMVS GENERIC QUERY REWRITER")
+    print("WAMVS STRUCTURAL QUERY REWRITER")
     print("=" * 75)
+
+    print(
+        "\nMatching rule:"
+    )
+
+    print(
+        "  tables + GROUP BY + required measures + safe filters"
+    )
 
     rewrite_plan = []
 
     for query_file in query_files:
 
-        query_id = extract_query_id(
-            query_file
-        )
+        query_id = query_file.stem.lower()
 
         original_sql = query_file.read_text()
 
         matched_view = None
 
+        # -----------------------------------------------------
+        # Find a structurally compatible selected MV.
+        # -----------------------------------------------------
+
         for view in selected_views:
+
+            if view["candidate_id"] not in candidate_ids:
+                continue
 
             if can_rewrite(
                 query_id,
-                view
+                view,
             ):
                 matched_view = view
                 break
 
         # -----------------------------------------------------
-        # No MV match
+        # No match
         # -----------------------------------------------------
+
         if matched_view is None:
 
             result = {
@@ -212,24 +393,24 @@ def main():
                 "view": None,
                 "original_sql": original_sql,
                 "rewritten_sql": None,
-                "reason": "no selected MV",
+                "reason": "no structurally compatible selected MV",
             }
 
             rewrite_plan.append(result)
 
             print(
-                f"{query_id}: "
-                f"NO MATCH"
+                f"{query_id}: NO MATCH"
             )
 
             continue
 
         # -----------------------------------------------------
-        # Generate rewritten SQL
+        # Build rewritten SQL.
         # -----------------------------------------------------
+
         rewritten_sql = build_rewritten_sql(
             query_id,
-            matched_view
+            matched_view,
         )
 
         if rewritten_sql is None:
@@ -243,14 +424,13 @@ def main():
                     original_sql,
                 "rewritten_sql": None,
                 "reason":
-                    "required measures unavailable",
+                    "required fields or filters unavailable",
             }
 
             rewrite_plan.append(result)
 
             print(
-                f"{query_id}: "
-                f"NO REWRITE"
+                f"{query_id}: NO REWRITE"
             )
 
             continue
@@ -281,13 +461,14 @@ def main():
     OUTPUT_FILE.write_text(
         json.dumps(
             rewrite_plan,
-            indent=2
+            indent=2,
         )
     )
 
     # ---------------------------------------------------------
     # Summary
     # ---------------------------------------------------------
+
     rewritten_count = sum(
         1
         for item in rewrite_plan
@@ -303,13 +484,11 @@ def main():
     print("=" * 75)
 
     print(
-        f"Total queries : "
-        f"{total_queries}"
+        f"Total queries : {total_queries}"
     )
 
     print(
-        f"Rewritten     : "
-        f"{rewritten_count}"
+        f"Rewritten     : {rewritten_count}"
     )
 
     print(

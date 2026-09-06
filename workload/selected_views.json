@@ -1,11 +1,114 @@
 [
   {
+    "candidate_id": "MV_005",
+    "source_queries": [
+      "q06"
+    ],
+    "tables": [
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "i_category",
+      "i_class"
+    ],
+    "measures": [
+      "revenue"
+    ],
+    "storage_mb": 0.0056,
+    "materialization_time_ms": 1276.24,
+    "benefit_ms": 11704.3252,
+    "utility": 2090058.0762,
+    "query_benefits": [
+      {
+        "query_id": "q06",
+        "frequency": 48.9291,
+        "frequency_status": "observed",
+        "saved_ms": 239.21,
+        "weighted_benefit_ms": 11704.33
+      }
+    ]
+  },
+  {
+    "candidate_id": "MV_006",
+    "source_queries": [
+      "q08"
+    ],
+    "tables": [
+      "store_sales"
+    ],
+    "group_by": [
+      "ss_store_sk"
+    ],
+    "measures": [
+      "revenue",
+      "profit"
+    ],
+    "storage_mb": 0.0035,
+    "materialization_time_ms": 1185.78,
+    "benefit_ms": 5595.6317,
+    "utility": 1598751.9193,
+    "query_benefits": [
+      {
+        "query_id": "q08",
+        "frequency": 87.2137,
+        "frequency_status": "observed",
+        "saved_ms": 64.16,
+        "weighted_benefit_ms": 5595.63
+      }
+    ]
+  },
+  {
+    "candidate_id": "MV_003",
+    "source_queries": [
+      "q03",
+      "q07",
+      "q09"
+    ],
+    "tables": [
+      "date_dim",
+      "item",
+      "store_sales"
+    ],
+    "group_by": [
+      "d_year",
+      "i_category"
+    ],
+    "measures": [
+      "revenue",
+      "profit",
+      "count"
+    ],
+    "storage_mb": 0.0058,
+    "materialization_time_ms": 1725.33,
+    "benefit_ms": 5029.079,
+    "utility": 867082.5791,
+    "query_benefits": [
+      {
+        "query_id": "q03",
+        "frequency": 12.5121,
+        "frequency_status": "observed",
+        "saved_ms": 371.37,
+        "weighted_benefit_ms": 4646.63
+      },
+      {
+        "query_id": "q07",
+        "frequency": 1.4345,
+        "frequency_status": "observed",
+        "saved_ms": 266.6,
+        "weighted_benefit_ms": 382.45
+      },
+      {
+        "query_id": "q09",
+        "frequency": 0.0,
+        "frequency_status": "unobserved",
+        "saved_ms": 339.57,
+        "weighted_benefit_ms": 0.0
+      }
+    ]
+  },
+  {
     "candidate_id": "MV_001",
-    "frequency": 2,
-    "storage_mb": 0.005,
-    "utility": 400.0,
-    "row_count": 11,
-    "materialization_time_ms": 6817.78,
     "source_queries": [
       "q01",
       "q04"
@@ -22,73 +125,26 @@
       "profit",
       "total_quantity",
       "avg_price"
-    ]
-  },
-  {
-    "candidate_id": "MV_003",
-    "frequency": 2,
+    ],
     "storage_mb": 0.005,
-    "utility": 400.0,
-    "row_count": 66,
-    "materialization_time_ms": 1675.58,
-    "source_queries": [
-      "q03",
-      "q07"
-    ],
-    "tables": [
-      "date_dim",
-      "item",
-      "store_sales"
-    ],
-    "group_by": [
-      "d_year",
-      "i_category"
-    ],
-    "measures": [
-      "revenue",
-      "profit"
-    ]
-  },
-  {
-    "candidate_id": "MV_004",
-    "frequency": 1,
-    "storage_mb": 0.0029,
-    "utility": 344.82758620689657,
-    "row_count": 6,
-    "materialization_time_ms": 1116.47,
-    "source_queries": [
-      "q05"
-    ],
-    "tables": [
-      "date_dim",
-      "store_sales"
-    ],
-    "group_by": [
-      "d_year"
-    ],
-    "measures": [
-      "revenue"
-    ]
-  },
-  {
-    "candidate_id": "MV_006",
-    "frequency": 1,
-    "storage_mb": 0.0035,
-    "utility": 285.7142857142857,
-    "row_count": 7,
-    "materialization_time_ms": 1139.36,
-    "source_queries": [
-      "q08"
-    ],
-    "tables": [
-      "store_sales"
-    ],
-    "group_by": [
-      "ss_store_sk"
-    ],
-    "measures": [
-      "revenue",
-      "profit"
+    "materialization_time_ms": 6546.68,
+    "benefit_ms": 1968.4336,
+    "utility": 393686.7115,
+    "query_benefits": [
+      {
+        "query_id": "q01",
+        "frequency": 6.8285,
+        "frequency_status": "observed",
+        "saved_ms": 267.96,
+        "weighted_benefit_ms": 1829.76
+      },
+      {
+        "query_id": "q04",
+        "frequency": 0.9235,
+        "frequency_status": "observed",
+        "saved_ms": 150.17,
+        "weighted_benefit_ms": 138.68
+      }
     ]
   }
 ]

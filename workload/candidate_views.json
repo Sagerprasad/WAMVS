@@ -39,8 +39,8 @@
       "store_sales"
     ],
     "group_by": [
-      "d_year",
-      "d_moy"
+      "d_moy",
+      "d_year"
     ],
     "measures": [
       "revenue",
@@ -74,11 +74,13 @@
     ],
     "measures": [
       "revenue",
-      "profit"
+      "profit",
+      "count"
     ],
     "measure_expressions": {
       "revenue": "SUM(ss_ext_sales_price)",
-      "profit": "SUM(ss_net_profit)"
+      "profit": "SUM(ss_net_profit)",
+      "count": "COUNT(*)"
     },
     "joins": [
       {
@@ -92,9 +94,10 @@
     ],
     "source_queries": [
       "q03",
-      "q07"
+      "q07",
+      "q09"
     ],
-    "frequency": 2
+    "frequency": 3
   },
   {
     "candidate_id": "MV_004",
@@ -179,43 +182,9 @@
       "store_sales"
     ],
     "group_by": [
-      "i_category",
-      "d_year"
-    ],
-    "measures": [
-      "count",
-      "revenue"
-    ],
-    "measure_expressions": {
-      "count": "COUNT(*)",
-      "revenue": "SUM(ss_ext_sales_price)"
-    },
-    "joins": [
-      {
-        "table": "item",
-        "condition": "ss_item_sk = i_item_sk"
-      },
-      {
-        "table": "date_dim",
-        "condition": "ss_sold_date_sk = d_date_sk"
-      }
-    ],
-    "source_queries": [
-      "q09"
-    ],
-    "frequency": 1
-  },
-  {
-    "candidate_id": "MV_008",
-    "tables": [
-      "date_dim",
-      "item",
-      "store_sales"
-    ],
-    "group_by": [
       "d_year",
-      "i_category",
-      "i_brand"
+      "i_brand",
+      "i_category"
     ],
     "measures": [
       "revenue"

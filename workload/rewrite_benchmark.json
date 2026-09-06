@@ -2,25 +2,25 @@
   {
     "query_id": "q01",
     "baseline_runs_ms": [
-      445.0,
-      356.72,
-      354.55,
-      335.63,
-      339.4
+      562.8,
+      422.61,
+      384.12,
+      370.62,
+      370.25
     ],
     "mv_runs_ms": [
-      116.35,
-      97.02,
-      110.07,
-      102.35,
-      101.66
+      110.01,
+      103.29,
+      127.71,
+      116.16,
+      122.38
     ],
-    "baseline_mean_ms": 366.26,
-    "mv_mean_ms": 105.49,
-    "baseline_median_ms": 354.55,
-    "mv_median_ms": 102.35,
-    "speedup": 3.464,
-    "improvement_percent": 71.13,
+    "baseline_mean_ms": 422.08,
+    "mv_mean_ms": 115.91,
+    "baseline_median_ms": 384.12,
+    "mv_median_ms": 116.16,
+    "speedup": 3.307,
+    "improvement_percent": 69.76,
     "result_match": true,
     "baseline_rows": 11,
     "mv_rows": 11,
@@ -29,25 +29,25 @@
   {
     "query_id": "q03",
     "baseline_runs_ms": [
-      446.54,
-      454.11,
-      436.02,
-      417.25,
-      426.76
+      508.5,
+      476.23,
+      469.44,
+      452.78,
+      442.56
     ],
     "mv_runs_ms": [
-      92.29,
-      95.81,
-      88.48,
-      91.63,
-      95.65
+      98.07,
+      93.55,
+      95.36,
+      100.61,
+      104.0
     ],
-    "baseline_mean_ms": 436.14,
-    "mv_mean_ms": 92.77,
-    "baseline_median_ms": 436.02,
-    "mv_median_ms": 92.29,
-    "speedup": 4.725,
-    "improvement_percent": 78.83,
+    "baseline_mean_ms": 469.9,
+    "mv_mean_ms": 98.32,
+    "baseline_median_ms": 469.44,
+    "mv_median_ms": 98.07,
+    "speedup": 4.787,
+    "improvement_percent": 79.11,
     "result_match": true,
     "baseline_rows": 66,
     "mv_rows": 66,
@@ -56,25 +56,25 @@
   {
     "query_id": "q04",
     "baseline_runs_ms": [
-      321.81,
-      248.29,
-      244.0,
-      233.92,
-      238.26
+      380.06,
+      251.08,
+      261.91,
+      245.38,
+      249.43
     ],
     "mv_runs_ms": [
-      94.03,
-      91.21,
-      94.73,
-      95.07,
-      98.18
+      96.1,
+      105.61,
+      100.91,
+      100.0,
+      105.1
     ],
-    "baseline_mean_ms": 257.25,
-    "mv_mean_ms": 94.64,
-    "baseline_median_ms": 244.0,
-    "mv_median_ms": 94.73,
-    "speedup": 2.576,
-    "improvement_percent": 61.18,
+    "baseline_mean_ms": 277.57,
+    "mv_mean_ms": 101.55,
+    "baseline_median_ms": 251.08,
+    "mv_median_ms": 100.91,
+    "speedup": 2.488,
+    "improvement_percent": 59.81,
     "result_match": true,
     "baseline_rows": 1,
     "mv_rows": 1,
@@ -83,82 +83,109 @@
   {
     "query_id": "q05",
     "baseline_runs_ms": [
-      325.85,
-      284.57,
-      273.09,
-      271.69,
-      270.83
+      355.18,
+      330.44,
+      343.6,
+      306.47,
+      278.39
     ],
     "mv_runs_ms": [
-      92.82,
-      91.57,
-      87.2,
-      92.74,
-      88.6
+      94.27,
+      90.02,
+      93.93,
+      94.37,
+      93.15
     ],
-    "baseline_mean_ms": 285.21,
-    "mv_mean_ms": 90.58,
-    "baseline_median_ms": 273.09,
-    "mv_median_ms": 91.57,
-    "speedup": 2.982,
-    "improvement_percent": 66.47,
+    "baseline_mean_ms": 322.82,
+    "mv_mean_ms": 93.15,
+    "baseline_median_ms": 330.44,
+    "mv_median_ms": 93.93,
+    "speedup": 3.518,
+    "improvement_percent": 71.58,
     "result_match": true,
     "baseline_rows": 3,
     "mv_rows": 3,
     "view": "MV_004"
   },
   {
-    "query_id": "q07",
+    "query_id": "q06",
     "baseline_runs_ms": [
-      471.03,
-      364.79,
-      356.33,
-      352.33,
-      375.47
+      318.25,
+      313.21,
+      302.48,
+      314.49,
+      308.44
     ],
     "mv_runs_ms": [
-      92.51,
-      90.86,
-      88.54,
-      93.17,
-      88.24
+      87.07,
+      87.6,
+      93.2,
+      93.24,
+      89.16
     ],
-    "baseline_mean_ms": 383.99,
-    "mv_mean_ms": 90.66,
-    "baseline_median_ms": 364.79,
-    "mv_median_ms": 90.86,
-    "speedup": 4.015,
-    "improvement_percent": 75.09,
+    "baseline_mean_ms": 311.37,
+    "mv_mean_ms": 90.05,
+    "baseline_median_ms": 313.21,
+    "mv_median_ms": 89.16,
+    "speedup": 3.513,
+    "improvement_percent": 71.53,
+    "result_match": true,
+    "baseline_rows": 130,
+    "mv_rows": 130,
+    "view": "MV_005"
+  },
+  {
+    "query_id": "q07",
+    "baseline_runs_ms": [
+      374.18,
+      357.8,
+      349.84,
+      361.06,
+      357.62
+    ],
+    "mv_runs_ms": [
+      91.2,
+      90.4,
+      94.27,
+      87.28,
+      97.24
+    ],
+    "baseline_mean_ms": 360.1,
+    "mv_mean_ms": 92.08,
+    "baseline_median_ms": 357.8,
+    "mv_median_ms": 91.2,
+    "speedup": 3.923,
+    "improvement_percent": 74.51,
     "result_match": true,
     "baseline_rows": 11,
     "mv_rows": 11,
     "view": "MV_003"
   },
   {
-    "query_id": "q08",
+    "query_id": "q09",
     "baseline_runs_ms": [
-      157.51,
-      147.56,
-      142.85,
-      149.04,
-      153.65
+      456.23,
+      361.16,
+      344.61,
+      349.69,
+      364.71
     ],
     "mv_runs_ms": [
-      87.95,
-      84.24,
-      86.08,
-      82.08,
-      84.88
+      99.26,
+      89.87,
+      85.66,
+      86.55,
+      91.78
     ],
-    "baseline_mean_ms": 150.12,
-    "mv_mean_ms": 85.04,
-    "baseline_median_ms": 149.04,
-    "mv_median_ms": 84.88,
-    "speedup": 1.756,
-    "improvement_percent": 43.05,
+    "baseline_mean_ms": 375.28,
+    "mv_mean_ms": 90.62,
+    "baseline_median_ms": 361.16,
+    "mv_median_ms": 89.87,
+    "speedup": 4.019,
+    "improvement_percent": 75.12,
     "result_match": true,
-    "baseline_rows": 7,
-    "mv_rows": 7,
-    "view": "MV_006"
+    "baseline_rows": 18,
+    "mv_rows": 18,
+    "view": "MV_003"
   }
 ]

@@ -20,7 +20,7 @@
     ],
     "sql": "SELECT\n    i_category,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit,\n    SUM(ss_quantity) AS total_quantity,\n    AVG(ss_sales_price) AS avg_price\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nGROUP BY i_category;",
     "row_count": 11,
-    "materialization_time_ms": 6817.78,
+    "materialization_time_ms": 6615.76,
     "storage_bytes": 5191,
     "storage_mb": 0.005,
     "status": "success"
@@ -35,17 +35,17 @@
       "store_sales"
     ],
     "group_by": [
-      "d_year",
-      "d_moy"
+      "d_moy",
+      "d_year"
     ],
     "measures": [
       "revenue",
       "profit"
     ],
-    "sql": "SELECT\n    d_year,\n    d_moy,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit\nFROM store_sales\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, d_moy;",
+    "sql": "SELECT\n    d_moy,\n    d_year,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit\nFROM store_sales\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_moy, d_year;",
     "row_count": 61,
-    "materialization_time_ms": 1973.34,
-    "storage_bytes": 5041,
+    "materialization_time_ms": 1944.97,
+    "storage_bytes": 5045,
     "storage_mb": 0.0048,
     "status": "success"
   },
@@ -53,7 +53,8 @@
     "candidate_id": "MV_003",
     "source_queries": [
       "q03",
-      "q07"
+      "q07",
+      "q09"
     ],
     "tables": [
       "date_dim",
@@ -66,13 +67,14 @@
     ],
     "measures": [
       "revenue",
-      "profit"
+      "profit",
+      "count"
     ],
-    "sql": "SELECT\n    d_year,\n    i_category,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, i_category;",
+    "sql": "SELECT\n    d_year,\n    i_category,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit,\n    COUNT(*) AS count\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, i_category;",
     "row_count": 66,
-    "materialization_time_ms": 1675.58,
-    "storage_bytes": 5251,
-    "storage_mb": 0.005,
+    "materialization_time_ms": 1753.91,
+    "storage_bytes": 6053,
+    "storage_mb": 0.0058,
     "status": "success"
   },
   {
@@ -92,7 +94,7 @@
     ],
     "sql": "SELECT\n    d_year,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year;",
     "row_count": 6,
-    "materialization_time_ms": 1116.47,
+    "materialization_time_ms": 1201.66,
     "storage_bytes": 3028,
     "storage_mb": 0.0029,
     "status": "success"
@@ -115,7 +117,7 @@
     ],
     "sql": "SELECT\n    i_category,\n    i_class,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nGROUP BY i_category, i_class;",
     "row_count": 130,
-    "materialization_time_ms": 1242.14,
+    "materialization_time_ms": 1354.82,
     "storage_bytes": 5867,
     "storage_mb": 0.0056,
     "status": "success"
@@ -137,38 +139,13 @@
     ],
     "sql": "SELECT\n    ss_store_sk,\n    SUM(ss_ext_sales_price) AS revenue,\n    SUM(ss_net_profit) AS profit\nFROM store_sales\nGROUP BY ss_store_sk;",
     "row_count": 7,
-    "materialization_time_ms": 1139.36,
+    "materialization_time_ms": 1282.29,
     "storage_bytes": 3701,
     "storage_mb": 0.0035,
     "status": "success"
   },
   {
     "candidate_id": "MV_007",
-    "source_queries": [
-      "q09"
-    ],
-    "tables": [
-      "date_dim",
-      "item",
-      "store_sales"
-    ],
-    "group_by": [
-      "i_category",
-      "d_year"
-    ],
-    "measures": [
-      "count",
-      "revenue"
-    ],
-    "sql": "SELECT\n    i_category,\n    d_year,\n    COUNT(*) AS count,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY i_category, d_year;",
-    "row_count": 66,
-    "materialization_time_ms": 1429.6,
-    "storage_bytes": 5055,
-    "storage_mb": 0.0048,
-    "status": "success"
-  },
-  {
-    "candidate_id": "MV_008",
     "source_queries": [
       "q10"
     ],
@@ -179,17 +156,17 @@
     ],
     "group_by": [
       "d_year",
-      "i_category",
-      "i_brand"
+      "i_brand",
+      "i_category"
     ],
     "measures": [
       "revenue"
     ],
-    "sql": "SELECT\n    d_year,\n    i_category,\n    i_brand,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, i_category, i_brand;",
+    "sql": "SELECT\n    d_year,\n    i_brand,\n    i_category,\n    SUM(ss_ext_sales_price) AS revenue\nFROM store_sales\nJOIN item\n    ON ss_item_sk = i_item_sk\nJOIN date_dim\n    ON ss_sold_date_sk = d_date_sk\nGROUP BY d_year, i_brand, i_category;",
     "row_count": 4884,
-    "materialization_time_ms": 1605.46,
-    "storage_bytes": 48865,
-    "storage_mb": 0.0466,
+    "materialization_time_ms": 1889.13,
+    "storage_bytes": 49037,
+    "storage_mb": 0.0468,
     "status": "success"
   }
 ]
