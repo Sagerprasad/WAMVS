@@ -1,0 +1,102 @@
+{
+  "baseline": "simplified_deepsea_style_physical",
+  "selection_policy": "fixed_frequency_greedy",
+  "adaptive": false,
+  "budget_mb": 100.0,
+  "used_storage_mb": 98.7105,
+  "candidates": [
+    {
+      "fragment_id": "HF_002",
+      "description": "d_year BETWEEN 1999 AND 2001",
+      "source_query": "q05",
+      "frequency": 30,
+      "row_count": 1644312,
+      "build_time_ms": 2888.46,
+      "storage_bytes": 76666314,
+      "storage_mb": 73.1147,
+      "queries": [
+        "q05"
+      ]
+    },
+    {
+      "fragment_id": "HF_003",
+      "description": "d_year = 2000",
+      "source_query": "q07",
+      "frequency": 10,
+      "row_count": 553861,
+      "build_time_ms": 1640.17,
+      "storage_bytes": 26839189,
+      "storage_mb": 25.5958,
+      "queries": [
+        "q07"
+      ]
+    },
+    {
+      "fragment_id": "HF_001",
+      "description": "i_category = Music",
+      "source_query": "q04",
+      "frequency": 8,
+      "row_count": 299529,
+      "build_time_ms": 6789.38,
+      "storage_bytes": 19492117,
+      "storage_mb": 18.5891,
+      "queries": [
+        "q04"
+      ]
+    },
+    {
+      "fragment_id": "HF_004",
+      "description": "i_category IN Music, Books, Sports",
+      "source_query": "q09",
+      "frequency": 0,
+      "row_count": 867911,
+      "build_time_ms": 2351.06,
+      "storage_bytes": 51347670,
+      "storage_mb": 48.969,
+      "queries": [
+        "q09"
+      ]
+    },
+    {
+      "fragment_id": "HF_005",
+      "description": "d_year >= 2000",
+      "source_query": "q10",
+      "frequency": 0,
+      "row_count": 1655574,
+      "build_time_ms": 1973.04,
+      "storage_bytes": 77203384,
+      "storage_mb": 73.6269,
+      "queries": [
+        "q10"
+      ]
+    }
+  ],
+  "selected_fragments": [
+    {
+      "fragment_id": "HF_002",
+      "description": "d_year BETWEEN 1999 AND 2001",
+      "source_query": "q05",
+      "frequency": 30,
+      "row_count": 1644312,
+      "build_time_ms": 2888.46,
+      "storage_bytes": 76666314,
+      "storage_mb": 73.1147,
+      "queries": [
+        "q05"
+      ]
+    },
+    {
+      "fragment_id": "HF_003",
+      "description": "d_year = 2000",
+      "source_query": "q07",
+      "frequency": 10,
+      "row_count": 553861,
+      "build_time_ms": 1640.17,
+      "storage_bytes": 26839189,
+      "storage_mb": 25.5958,
+      "queries": [
+        "q07"
+      ]
+    }
+  ]
+}

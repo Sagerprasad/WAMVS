@@ -1,0 +1,190 @@
+{
+  "baseline": "simplified_deepsea_style",
+  "selection_policy": "frequency_greedy",
+  "adaptive": false,
+  "storage_budget_mb": 0.02,
+  "storage_used_mb": 0.0172,
+  "selected_count": 4,
+  "selected_views": [
+    {
+      "candidate_id": "MV_003",
+      "frequency": 3.0,
+      "storage_mb": 0.0058,
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_year",
+        "i_category"
+      ],
+      "source_queries": [
+        "q03",
+        "q07",
+        "q09"
+      ]
+    },
+    {
+      "candidate_id": "MV_001",
+      "frequency": 2.0,
+      "storage_mb": 0.005,
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "i_category"
+      ],
+      "source_queries": [
+        "q01",
+        "q04"
+      ]
+    },
+    {
+      "candidate_id": "MV_004",
+      "frequency": 1.0,
+      "storage_mb": 0.0029,
+      "tables": [
+        "date_dim",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_year"
+      ],
+      "source_queries": [
+        "q05"
+      ]
+    },
+    {
+      "candidate_id": "MV_006",
+      "frequency": 1.0,
+      "storage_mb": 0.0035,
+      "tables": [
+        "store_sales"
+      ],
+      "group_by": [
+        "ss_store_sk"
+      ],
+      "source_queries": [
+        "q08"
+      ]
+    }
+  ],
+  "ranking": [
+    {
+      "candidate_id": "MV_003",
+      "frequency": 3.0,
+      "storage_mb": 0.0058,
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_year",
+        "i_category"
+      ],
+      "source_queries": [
+        "q03",
+        "q07",
+        "q09"
+      ]
+    },
+    {
+      "candidate_id": "MV_001",
+      "frequency": 2.0,
+      "storage_mb": 0.005,
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "i_category"
+      ],
+      "source_queries": [
+        "q01",
+        "q04"
+      ]
+    },
+    {
+      "candidate_id": "MV_004",
+      "frequency": 1.0,
+      "storage_mb": 0.0029,
+      "tables": [
+        "date_dim",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_year"
+      ],
+      "source_queries": [
+        "q05"
+      ]
+    },
+    {
+      "candidate_id": "MV_006",
+      "frequency": 1.0,
+      "storage_mb": 0.0035,
+      "tables": [
+        "store_sales"
+      ],
+      "group_by": [
+        "ss_store_sk"
+      ],
+      "source_queries": [
+        "q08"
+      ]
+    },
+    {
+      "candidate_id": "MV_002",
+      "frequency": 1.0,
+      "storage_mb": 0.0048,
+      "tables": [
+        "date_dim",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_moy",
+        "d_year"
+      ],
+      "source_queries": [
+        "q02"
+      ]
+    },
+    {
+      "candidate_id": "MV_005",
+      "frequency": 1.0,
+      "storage_mb": 0.0056,
+      "tables": [
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "i_category",
+        "i_class"
+      ],
+      "source_queries": [
+        "q06"
+      ]
+    },
+    {
+      "candidate_id": "MV_007",
+      "frequency": 1.0,
+      "storage_mb": 0.0468,
+      "tables": [
+        "date_dim",
+        "item",
+        "store_sales"
+      ],
+      "group_by": [
+        "d_year",
+        "i_brand",
+        "i_category"
+      ],
+      "source_queries": [
+        "q10"
+      ]
+    }
+  ]
+}
